@@ -4,6 +4,7 @@ import java.sql.*;
 import java.util.*;
 
 import habitaciones.*;
+import personal.Empleado;
 
 public class Conectar {
 	
@@ -360,6 +361,21 @@ try {
 	}
 	
 	
-	
+	public void agregarEmpleado(Empleado empleadoNuevo) {
+try {
+			
+			conectar = DriverManager.getConnection("jdbc:mysql://localhost:3306?serverTimezone=UTC","admin","1234");
+			
+			statement = conectar.createStatement();
+			
+			String instruccionSQL = "INSERT INTO sistemahotel.empleado (nombre, apellido, dni, cargo, sueldo, usuario, contraseña) VALUES ('" + empleadoNuevo.getNombre() + "','" + empleadoNuevo.getApellido() + "','" + empleadoNuevo.getDNI() + "','" + empleadoNuevo.getCargo() + "','" + empleadoNuevo.getSueldo() + "','" + empleadoNuevo.getUsuario() + "','" + empleadoNuevo.getContraseña()+ "')";
+			
+			statement.executeUpdate(instruccionSQL);
+				
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
 	
 }

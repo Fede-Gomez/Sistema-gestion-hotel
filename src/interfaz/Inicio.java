@@ -3,25 +3,16 @@ package interfaz;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
-import javax.swing.JToolBar;
-import java.awt.BorderLayout;
 import javax.swing.JButton;
-import java.awt.FlowLayout;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
 import javax.swing.JPanel;
-import javax.swing.JDesktopPane;
 import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import javax.swing.JInternalFrame;
-import javax.swing.JLayeredPane;
-import javax.swing.LayoutStyle.ComponentPlacement;
-import java.awt.CardLayout;
+import javax.swing.UIManager;
 
 public class Inicio {
 
-	private JFrame frame;
+	private JFrame frmInicio;
 
 	/**
 	 * Launch the application.
@@ -31,7 +22,7 @@ public class Inicio {
 			public void run() {
 				try {
 					Inicio window = new Inicio();
-					window.frame.setVisible(true);
+					window.frmInicio.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -50,14 +41,14 @@ public class Inicio {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame();
-		frame.setBounds(100, 100, 790, 526);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
+		frmInicio = new JFrame();
+		frmInicio.setTitle("Inicio");
+		frmInicio.setResizable(false);
+		frmInicio.setBounds(100, 100, 914, 526);
+		frmInicio.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JPanel panelBotones = new JPanel();
 		panelBotones.setBounds(10, 11, 122, 465);
-		frame.getContentPane().add(panelBotones);
 		panelBotones.setLayout(null);
 		
 		JButton habitacion = new JButton("Habitacion");
@@ -80,60 +71,70 @@ public class Inicio {
 		cerrarSession.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Login.main(null);
-				frame.dispose();
+				frmInicio.dispose();
 			}
 		});
 		cerrarSession.setBounds(10, 415, 103, 23);
 		panelBotones.add(cerrarSession);		
 		
 		JPanel panelProducto = new JPanel();
-		panelProducto.setBounds(132, 311, 632, 46);
-		frame.getContentPane().add(panelProducto);
+		panelProducto.setBounds(132, 311, 756, 46);
+		panelProducto.setBackground(Color.LIGHT_GRAY);
 		panelProducto.setLayout(null);
 		panelProducto.setVisible(false);
 		
 		JButton agregarProducto = new JButton("Agregar producto");
-		agregarProducto.setBounds(10, 11, 117, 23);
+		agregarProducto.setBounds(23, 11, 155, 23);
 		panelProducto.add(agregarProducto);
 		
 		JButton mostrarProducto = new JButton("Mostrar productos");
-		mostrarProducto.setBounds(171, 11, 121, 23);
+		mostrarProducto.setBounds(207, 11, 163, 23);
 		panelProducto.add(mostrarProducto);
 		
 		JButton eliminarProducto = new JButton("Eliminar producto");
-		eliminarProducto.setBounds(501, 11, 131, 23);
+		eliminarProducto.setBounds(591, 11, 155, 23);
 		panelProducto.add(eliminarProducto);
 		
 		JButton modificarProducto = new JButton("Modificar producto");
-		modificarProducto.setBounds(329, 11, 133, 23);
+		modificarProducto.setBounds(401, 11, 163, 23);
 		panelProducto.add(modificarProducto);
 		
 		JPanel panelEmpleados = new JPanel();
-		panelEmpleados.setBounds(130, 113, 634, 46);
-		frame.getContentPane().add(panelEmpleados);
+		panelEmpleados.setBounds(130, 113, 758, 46);
 		panelEmpleados.setBackground(new Color(0, 204, 153));
 		panelEmpleados.setLayout(null);
 		panelEmpleados.setVisible(false);
 		
 		JButton agregarEmpleado = new JButton("Agregar empleado");
-		agregarEmpleado.setBounds(10, 11, 121, 23);
+		agregarEmpleado.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				AgregarEmpleado.main(null);
+				frmInicio.dispose();
+			}
+		});
+		agregarEmpleado.setBounds(21, 11, 159, 23);
 		panelEmpleados.add(agregarEmpleado);
 		
 		JButton mostrarEmpleado = new JButton("Mostrar empleados");
-		mostrarEmpleado.setBounds(172, 11, 123, 23);
+		mostrarEmpleado.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ListarEmpleados.main(null);
+				frmInicio.dispose();
+			}
+		});
+		mostrarEmpleado.setBounds(204, 11, 166, 23);
 		panelEmpleados.add(mostrarEmpleado);
 		
 		JButton eliminarEmpleado = new JButton("Eliminar empleado");
-		eliminarEmpleado.setBounds(511, 11, 123, 23);
+		eliminarEmpleado.setBounds(589, 11, 159, 23);
 		panelEmpleados.add(eliminarEmpleado);
 		
 		JButton modificarEmpleado = new JButton("Modificar empleado");
-		modificarEmpleado.setBounds(334, 11, 133, 23);
+		modificarEmpleado.setBounds(399, 11, 166, 23);
 		panelEmpleados.add(modificarEmpleado);
 		
 		JPanel panelHabitaciones = new JPanel();
-		panelHabitaciones.setBounds(130, 11, 634, 46);
-		frame.getContentPane().add(panelHabitaciones);
+		panelHabitaciones.setBounds(130, 11, 758, 46);
 		panelHabitaciones.setBackground(new Color(153, 0, 102));
 		panelHabitaciones.setVisible(false);
 		
@@ -141,10 +142,10 @@ public class Inicio {
 		listarHabitacion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ListarHabitaciones.main(null);
-				frame.dispose();
+				frmInicio.dispose();
 			}
 		});
-		listarHabitacion.setBounds(173, 11, 133, 23);
+		listarHabitacion.setBounds(202, 11, 166, 23);
 		
 		
 		JButton eliminarHabitacion = new JButton("Eliminar Habitacion");
@@ -152,10 +153,10 @@ public class Inicio {
 			public void actionPerformed(ActionEvent e) {
 				
 				EliminarHabitacion.main(null);
-				frame.dispose();
+				frmInicio.dispose();
 			}
 		});
-		eliminarHabitacion.setBounds(511, 11, 123, 23);
+		eliminarHabitacion.setBounds(590, 11, 158, 23);
 		panelHabitaciones.setLayout(null);
 		panelHabitaciones.add(listarHabitacion);
 		panelHabitaciones.add(eliminarHabitacion);
@@ -164,43 +165,50 @@ public class Inicio {
 		agregarHabitacion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				AgregarHabitacion.main(null);
-				frame.dispose();
+				frmInicio.dispose();
 			}
 		});
-		agregarHabitacion.setBounds(10, 11, 123, 23);
+		agregarHabitacion.setBounds(21, 11, 158, 23);
 		panelHabitaciones.add(agregarHabitacion);
 		
 		JButton modificarHabitacion = new JButton("Modificar habitacion");
 		modificarHabitacion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ModificarHabitacion.main(null);
-				frame.dispose();
+				frmInicio.dispose();
 			}
 		});
-		modificarHabitacion.setBounds(333, 11, 130, 23);
+		modificarHabitacion.setBounds(398, 11, 166, 23);
 		panelHabitaciones.add(modificarHabitacion);
 		
 		JPanel panelCliente = new JPanel();
-		panelCliente.setBounds(130, 207, 634, 46);
-		frame.getContentPane().add(panelCliente);
+		panelCliente.setBounds(130, 207, 758, 46);
+		panelCliente.setBackground(Color.CYAN);
+		panelCliente.setForeground(UIManager.getColor("Button.background"));
 		panelCliente.setLayout(null);
 		panelCliente.setVisible(false);
 		
 		JButton agregarCliente = new JButton("Agregar Cliente");
-		agregarCliente.setBounds(10, 11, 117, 23);
+		agregarCliente.setBounds(23, 11, 158, 23);
 		panelCliente.add(agregarCliente);
 		
 		JButton mostrarCliente = new JButton("Mostrar clientes");
-		mostrarCliente.setBounds(171, 11, 124, 23);
+		mostrarCliente.setBounds(203, 11, 167, 23);
 		panelCliente.add(mostrarCliente);
 		
 		JButton eliminarCliente = new JButton("Eliminar cliente");
-		eliminarCliente.setBounds(510, 11, 124, 23);
+		eliminarCliente.setBounds(590, 11, 158, 23);
 		panelCliente.add(eliminarCliente);
 		
 		JButton modificarCliente = new JButton("Modificar Cliente");
-		modificarCliente.setBounds(332, 11, 132, 23);
+		modificarCliente.setBounds(400, 11, 167, 23);
 		panelCliente.add(modificarCliente);
+		frmInicio.getContentPane().setLayout(null);
+		frmInicio.getContentPane().add(panelHabitaciones);
+		frmInicio.getContentPane().add(panelEmpleados);
+		frmInicio.getContentPane().add(panelCliente);
+		frmInicio.getContentPane().add(panelProducto);
+		frmInicio.getContentPane().add(panelBotones);
 		
 		empleados.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
