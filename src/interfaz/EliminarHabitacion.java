@@ -20,14 +20,27 @@ import javax.swing.JTextField;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
+import javax.swing.JRadioButton;
+import javax.swing.ButtonGroup;
 
 public class EliminarHabitacion {
 
 	private JFrame frmEliminarHabitacion;
 	private JTable table;
-	private JTextField num;
+	private JTextField numero;
 	private Conectar conectar = new Conectar();
-
+	private JTextField capacidad;
+	private JTextField piso;
+	private JTextField precio;
+	private final ButtonGroup buttonGroupTipo = new ButtonGroup();
+	private final ButtonGroup buttonGroupDisponible = new ButtonGroup();
+	private JRadioButton normal = new JRadioButton("Normal");
+	private JRadioButton Super = new JRadioButton("Super");
+	private JRadioButton deluxe = new JRadioButton("Deluxe");
+	private JRadioButton disponibleSi = new JRadioButton("Si");
+	private JRadioButton disponibleNo = new JRadioButton("No");
+	private String tipoHabitacion;
+	private String disponible;
 	/**
 	 * Launch the application.
 	 */
@@ -57,7 +70,7 @@ public class EliminarHabitacion {
 	private void initialize() {
 		frmEliminarHabitacion = new JFrame();
 		frmEliminarHabitacion.setTitle("Eliminar Habitacion");
-		frmEliminarHabitacion.setBounds(100, 100, 574, 320);
+		frmEliminarHabitacion.setBounds(100, 100, 574, 560);
 		frmEliminarHabitacion.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JPanel panel = new JPanel();
@@ -68,28 +81,28 @@ public class EliminarHabitacion {
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addComponent(panel, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 281, Short.MAX_VALUE)
+				.addComponent(panel, GroupLayout.PREFERRED_SIZE, 281, Short.MAX_VALUE)
 		);
 		
 		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(10, 228, 538, 228);
 		
-		JButton eliminar = new JButton("Eliminar");
+		JButton eliminar = new JButton("Eliminar habitacion");
+		eliminar.setBounds(138, 487, 121, 23);
 		eliminar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			
 				
-				int decision = JOptionPane.showConfirmDialog(frmEliminarHabitacion, "Estas seguro?");
-				System.out.println(decision);
-				if(decision == 0) {
-					conectar.eliminarHabitacion(num.getText());					
-					((DefaultTableModel) table.getModel()).removeRow(0);
-				}
+				eliminarHabitacion();
+				
+				
 
 				
 			}
 		});
 		
 		JButton volver = new JButton("Volver");
+		volver.setBounds(347, 487, 121, 23);
 		volver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Inicio.main(null);
@@ -98,79 +111,75 @@ public class EliminarHabitacion {
 		});
 		
 		JLabel lblNewLabel = new JLabel("Numero");
+		lblNewLabel.setBounds(31, 55, 69, 14);
 		
-		num = new JTextField();
-		num.setColumns(10);
+		numero = new JTextField();
+		numero.setBounds(121, 52, 86, 20);
+		numero.setColumns(10);
 		
-		JButton buscar = new JButton("Buscar");
+		JButton buscar = new JButton("Buscar habitacion");
+		buscar.setBounds(299, 173, 189, 44);
 		buscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//limpiar la tabla para que este vacia					
-				while(((DefaultTableModel) table.getModel()).getRowCount() != 0) {
-					((DefaultTableModel) table.getModel()).removeRow(0);
+				
+				if(normal.isSelected()) {
+					tipoHabitacion = normal.getText();
+				}else {
+					if(Super.isSelected()) {
+						tipoHabitacion = Super.getText();
+					}
+					else {
+						if(deluxe.isSelected())
+							tipoHabitacion = deluxe.getText();
+						else {
+							tipoHabitacion = "";
+						}
+					}
 				}
 				
-				ArrayList<String> habitaciones = new ArrayList<String>();
-				int numCols = table.getModel().getColumnCount();
-				Object [] columna = new Object[numCols]; 
-				int cont = 0;
-				
-				habitaciones = conectar.buscarHabitacionNumero(num.getText());
-
-				
-/*
-agrega agrega cada dato rescatado de la bbdd y luego lo agrega a la tabla de la interfaz con la ultima linea
-* */					
-				while( cont < habitaciones.size()) {
-	
-					columna[0] = habitaciones.get(cont++).toString();
-					columna[1] = habitaciones.get(cont++).toString();
-					columna[2] = habitaciones.get(cont++).toString();
-					columna[3] = habitaciones.get(cont++).toString();
-					columna[4] = habitaciones.get(cont++).toString();
-					columna[5] = habitaciones.get(cont++).toString();
-					((DefaultTableModel) table.getModel()).addRow(columna);
-
-
+				if(disponibleSi.isSelected()) {
+					disponible = disponibleSi.getText();
+				}else {
+					if(disponibleNo.isSelected()) {
+						disponible = disponibleNo.getText();
+					}
+					else {
+						disponible = "";
+					}
 				}
+				
+			buscarHabitacion();
+			
+			numero.setText("");
+			capacidad.setText("");
+			piso.setText("");
+			precio.setText("");
+			tipoHabitacion = "";
+			disponible = "";
 			
 		}
 	});
-		GroupLayout gl_panel = new GroupLayout(panel);
-		gl_panel.setHorizontalGroup(
-			gl_panel.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
-					.addGap(139)
-					.addComponent(eliminar)
-					.addPreferredGap(ComponentPlacement.RELATED, 150, Short.MAX_VALUE)
-					.addComponent(volver)
-					.addGap(137))
-				.addGroup(gl_panel.createSequentialGroup()
-					.addGap(31)
-					.addComponent(lblNewLabel)
-					.addGap(53)
-					.addComponent(num, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED, 129, Short.MAX_VALUE)
-					.addComponent(buscar, GroupLayout.PREFERRED_SIZE, 102, GroupLayout.PREFERRED_SIZE)
-					.addGap(120))
-				.addComponent(scrollPane, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 558, Short.MAX_VALUE)
-		);
-		gl_panel.setVerticalGroup(
-			gl_panel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel.createSequentialGroup()
-					.addGap(51)
-					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblNewLabel)
-						.addComponent(num, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(buscar, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-					.addGap(35)
-					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 91, GroupLayout.PREFERRED_SIZE)
-					.addGap(27)
-					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(volver)
-						.addComponent(eliminar))
-					.addGap(31))
-		);
+		
+		JLabel lblNewLabel_2 = new JLabel("Capacidad");
+		lblNewLabel_2.setBounds(31, 98, 86, 14);
+		
+		capacidad = new JTextField();
+		capacidad.setBounds(121, 95, 86, 20);
+		capacidad.setColumns(10);
+		
+		JLabel lblNewLabel_3 = new JLabel("Precio");
+		lblNewLabel_3.setBounds(31, 173, 69, 14);
+		
+		JLabel lblNewLabel_1 = new JLabel("Piso");
+		lblNewLabel_1.setBounds(31, 138, 69, 14);
+		
+		piso = new JTextField();
+		piso.setBounds(121, 135, 86, 20);
+		piso.setColumns(10);
+		
+		precio = new JTextField();
+		precio.setBounds(121, 170, 86, 20);
+		precio.setColumns(10);
 		
 		table = new JTable();
 		table.setModel(new DefaultTableModel(
@@ -181,7 +190,108 @@ agrega agrega cada dato rescatado de la bbdd y luego lo agrega a la tabla de la 
 			}
 		));
 		scrollPane.setViewportView(table);
-		panel.setLayout(gl_panel);
+		panel.setLayout(null);
+		panel.add(lblNewLabel_3);
+		panel.add(lblNewLabel_1);
+		panel.add(piso);
+		panel.add(precio);
+		panel.add(lblNewLabel_2);
+		panel.add(capacidad);
+		panel.add(lblNewLabel);
+		panel.add(numero);
+		panel.add(buscar);
+		panel.add(eliminar);
+		panel.add(volver);
+		panel.add(scrollPane);
+		
+		JLabel lblNewLabel_4 = new JLabel("Tipo");
+		lblNewLabel_4.setBounds(267, 92, 46, 14);
+		panel.add(lblNewLabel_4);
+		
+		
+		buttonGroupTipo.add(normal);
+		normal.setBounds(299, 55, 76, 23);
+		panel.add(normal);
+		
+		buttonGroupTipo.add(Super);
+		Super.setBounds(299, 88, 76, 23);
+		panel.add(Super);
+		
+		buttonGroupTipo.add(deluxe);
+		deluxe.setBounds(299, 121, 76, 23);
+		panel.add(deluxe);
+		
+		JLabel lblNewLabel_5 = new JLabel("Disponible");
+		lblNewLabel_5.setBounds(402, 55, 86, 14);
+		panel.add(lblNewLabel_5);
+		
+		buttonGroupDisponible.add(disponibleSi);
+		disponibleSi.setBounds(412, 84, 109, 23);
+		panel.add(disponibleSi);
+		
+		buttonGroupDisponible.add(disponibleNo);
+		disponibleNo.setBounds(412, 117, 109, 23);
+		panel.add(disponibleNo);
 		frmEliminarHabitacion.getContentPane().setLayout(groupLayout);
+	}
+	
+	public void buscarHabitacion() {
+		
+		//limpiar la tabla para que este vacia					
+		while(((DefaultTableModel) table.getModel()).getRowCount() != 0) {
+			((DefaultTableModel) table.getModel()).removeRow(0);
+		}
+		
+		ArrayList<String> habitaciones = new ArrayList<String>();
+		int numCols = table.getModel().getColumnCount();
+		Object [] columna = new Object[numCols]; 
+		int cont = 0;
+		
+		habitaciones = conectar.buscarHabitacion(numero.getText(),precio.getText(), capacidad.getText(), piso.getText(), tipoHabitacion, disponible);
+//String numero, String precio, String capacidad, String piso, String tipo, String disponible
+		
+/*
+agrega agrega cada dato rescatado de la bbdd y luego lo agrega a la tabla de la interfaz con la ultima linea
+* */					
+		while( cont < habitaciones.size()) {
+
+			columna[0] = habitaciones.get(cont++).toString();
+			columna[1] = habitaciones.get(cont++).toString();
+			columna[2] = habitaciones.get(cont++).toString();
+			columna[3] = habitaciones.get(cont++).toString();
+			columna[4] = habitaciones.get(cont++).toString();
+			columna[5] = habitaciones.get(cont++).toString();
+			((DefaultTableModel) table.getModel()).addRow(columna);
+
+
+		}
+	}
+	
+	public void eliminarHabitacion() {
+		
+		
+		if(((DefaultTableModel) table.getModel()).getRowCount() != 0) {
+			
+			
+				
+			if(numero.getText().equals("")) {
+				JOptionPane.showMessageDialog(frmEliminarHabitacion, "Indique numero para poder modificar");
+			}
+			else {
+				int decision = JOptionPane.showConfirmDialog(frmEliminarHabitacion, "Estas seguro?");
+				System.out.println(decision);
+				if(decision == 0) {
+					conectar.eliminarHabitacion(numero.getText());					
+					((DefaultTableModel) table.getModel()).removeRow(0);
+				}
+			}
+
+
+
+		}
+		
+		
+		
+		
 	}
 }

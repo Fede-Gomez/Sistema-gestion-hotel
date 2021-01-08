@@ -7,6 +7,7 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
@@ -27,7 +28,10 @@ public class AgregarHabitacion {
 	private JTextField precio;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 	private Conectar conectar = new Conectar();
-
+	private JRadioButton normal = new JRadioButton("Normal");
+	private JRadioButton Super = new JRadioButton("Super");
+	private JRadioButton deluxe = new JRadioButton("Deluxe");
+	
 	/**
 	 * Launch the application.
 	 */
@@ -91,13 +95,11 @@ public class AgregarHabitacion {
 		precio = new JTextField();
 		precio.setColumns(10);
 		
-		JRadioButton normal = new JRadioButton("Normal");
+		
 		buttonGroup.add(normal);
 		
-		JRadioButton Super = new JRadioButton("Super");
 		buttonGroup.add(Super);
 		
-		JRadioButton deluxe = new JRadioButton("Deluxe");
 		buttonGroup.add(deluxe);
 		
 		JLabel lblNewLabel_4 = new JLabel("Tipo de habitacion");
@@ -109,42 +111,56 @@ public class AgregarHabitacion {
 
 			public void actionPerformed(ActionEvent e) {
 				
-				int capaci = Integer.parseInt(capacidad.getText());
-				int floor = Integer.parseInt(piso.getText());
-				int numero = Integer.parseInt(num.getText());
-				double cash = Double.parseDouble(precio.getText());
 				
-				if(normal.isSelected()) {
-					habitacionNormal habitacion = new habitacionNormal(capaci, floor, numero, cash);											
-					conectar.crearHabitacion(habitacion);			
-				}else {
-					if(Super.isSelected()) {
-						habitacionSuper habitacion = new habitacionSuper(capaci, floor, numero, cash);					
-						conectar.crearHabitacion(habitacion);			
-					}
-					else {
-						habitacionDeluxe habitacion = new habitacionDeluxe(capaci, floor, numero, cash);						
-						conectar.crearHabitacion(habitacion);
-					}
+				while(num.getText().equals("")) {
+					num.setText(JOptionPane.showInputDialog("Ingrese un numero"));
 				}
-
-
-				Inicio.main(null);
-				frmAgregarHabitacio.dispose();
-
-
+				while(piso.getText().equals("")) {
+					piso.setText(JOptionPane.showInputDialog("Ingrese el piso"));
+				}
+				while(capacidad.getText().equals("")) {
+					capacidad.setText(JOptionPane.showInputDialog("Ingrese la capacidad"));
+				}
+				while(precio.getText().equals("")) {
+					precio.setText(JOptionPane.showInputDialog("Ingrese un precio"));
+				}
+					
+				crearHabitacion();
+				
+				num.setText("");
+				piso.setText("");
+				capacidad.setText("");
+				precio.setText("");
 				
 			}
 		});
 		
 		JButton borrar = new JButton("Limpiar");
+		borrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				capacidad.setText("");
+				piso.setText("");
+				num.setText("");
+				precio.setText("");
+		
+			}
+		});
+		
+		JButton volver = new JButton("Volver");
+		volver.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			
+				Inicio.main(null);
+				frmAgregarHabitacio.dispose();
+			}
+		});
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel.createSequentialGroup()
 					.addGap(217)
 					.addComponent(lblNewLabel_5)
-					.addContainerGap(254, Short.MAX_VALUE))
+					.addContainerGap(208, Short.MAX_VALUE))
 				.addGroup(gl_panel.createSequentialGroup()
 					.addGap(36)
 					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
@@ -171,8 +187,9 @@ public class AgregarHabitacion {
 					.addPreferredGap(ComponentPlacement.RELATED, 184, Short.MAX_VALUE)
 					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 						.addComponent(agregar)
-						.addComponent(borrar))
-					.addGap(44))
+						.addComponent(borrar)
+						.addComponent(volver))
+					.addGap(26))
 		);
 		gl_panel.setVerticalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
@@ -198,21 +215,48 @@ public class AgregarHabitacion {
 					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_panel.createSequentialGroup()
 							.addGap(48)
-							.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-								.addComponent(lblNewLabel_4)
-								.addComponent(agregar))
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(borrar))
+							.addComponent(lblNewLabel_4))
 						.addGroup(gl_panel.createSequentialGroup()
 							.addGap(18)
-							.addComponent(Super)
+							.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+								.addComponent(Super)
+								.addComponent(agregar))
 							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(normal)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(deluxe)))
-					.addContainerGap(22, Short.MAX_VALUE))
+							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_panel.createSequentialGroup()
+									.addComponent(normal)
+									.addPreferredGap(ComponentPlacement.UNRELATED)
+									.addComponent(deluxe))
+								.addGroup(gl_panel.createSequentialGroup()
+									.addComponent(borrar)
+									.addPreferredGap(ComponentPlacement.UNRELATED)
+									.addComponent(volver)))))
+					.addContainerGap(18, Short.MAX_VALUE))
 		);
 		panel.setLayout(gl_panel);
 		frmAgregarHabitacio.getContentPane().setLayout(groupLayout);
 	}
+	
+	
+	public void crearHabitacion() {
+		int capaci = Integer.parseInt(capacidad.getText());
+		int floor = Integer.parseInt(piso.getText());
+		int numero = Integer.parseInt(num.getText());
+		double cash = Double.parseDouble(precio.getText());
+		
+		if(normal.isSelected()) {
+			habitacionNormal habitacion = new habitacionNormal(capaci, floor, numero, cash);											
+			conectar.crearHabitacion(habitacion);			
+		}else {
+			if(Super.isSelected()) {
+				habitacionSuper habitacion = new habitacionSuper(capaci, floor, numero, cash);					
+				conectar.crearHabitacion(habitacion);			
+			}
+			else {
+				habitacionDeluxe habitacion = new habitacionDeluxe(capaci, floor, numero, cash);						
+				conectar.crearHabitacion(habitacion);
+			}
+		}
+	}
+	
 }

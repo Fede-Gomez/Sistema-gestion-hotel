@@ -7,6 +7,7 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
@@ -14,6 +15,9 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import conectarBBDD.Conectar;
+import habitaciones.habitacionDeluxe;
+import habitaciones.habitacionNormal;
+import habitaciones.habitacionSuper;
 
 import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
@@ -30,8 +34,24 @@ public class ModificarHabitacion {
 	private JTextField capacidadNueva;
 	private JTextField precioNuevo;
 	private Conectar conectar = new Conectar();
-	private final ButtonGroup buttonGroupDisponible = new ButtonGroup();
-
+	private final ButtonGroup buttonGroupModificar = new ButtonGroup();
+	private JTextField criterioPiso;
+	private JTextField criterioCapacidad;
+	private JTextField criterioPrecio;
+	private final ButtonGroup buttonGroupCriterioDisponible = new ButtonGroup();
+	private JRadioButton disponibleSi = new JRadioButton("Si");		
+	private JRadioButton disponibleNo = new JRadioButton("No");
+	private final ButtonGroup buttonGroupCriterioTipo = new ButtonGroup();
+	private String tipoHabitacionCriterio;
+	private String disponibleCriterio;
+	private JRadioButton criterioNormal = new JRadioButton("Normal");
+	private JRadioButton criterioSuper = new JRadioButton("Super");
+	private JRadioButton criterioDeluxe = new JRadioButton("Deluxe");
+	private JRadioButton criterioDisponibleNo = new JRadioButton("No");		
+	private JRadioButton criterioDisponibleSi = new JRadioButton("Si");
+	private String disponible;
+	private JTextField numeroHabitacionModificar;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -62,7 +82,7 @@ public class ModificarHabitacion {
 		frmModificarHabitacion = new JFrame();
 		frmModificarHabitacion.setTitle("Modificar habitacion");
 		frmModificarHabitacion.setResizable(false);
-		frmModificarHabitacion.setBounds(100, 100, 695, 407);
+		frmModificarHabitacion.setBounds(100, 100, 883, 459);
 		frmModificarHabitacion.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JPanel panel = new JPanel();
@@ -80,112 +100,65 @@ public class ModificarHabitacion {
 		lblNewLabel.setBounds(42, 52, 76, 14);
 		
 		criterioNumero = new JTextField();
-		criterioNumero.setBounds(128, 49, 86, 20);
+		criterioNumero.setBounds(143, 49, 86, 20);
 		criterioNumero.setColumns(10);
 		
 		JButton buscar = new JButton("Buscar habitacion");
-		buscar.setBounds(386, 48, 170, 23);
+		buscar.setBounds(42, 317, 187, 23);
 		buscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				//limpiar la tabla para que este vacia					
-				while(((DefaultTableModel) table.getModel()).getRowCount() != 0) {
-					((DefaultTableModel) table.getModel()).removeRow(0);
-				}
-				
-				ArrayList<String> habitaciones = new ArrayList<String>();
-				int numCols = table.getModel().getColumnCount();
-				Object [] columna = new Object[numCols]; 
-				int cont = 0;
-				
-				habitaciones = conectar.buscarHabitacionNumero(criterioNumero.getText());
-
-				
-/*
-agrega agrega cada dato rescatado de la bbdd y luego lo agrega a la tabla de la interfaz con la ultima linea
-* */					
-				while( cont < habitaciones.size()) {
-	
-					columna[0] = habitaciones.get(cont++).toString();
-					columna[1] = habitaciones.get(cont++).toString();
-					columna[2] = habitaciones.get(cont++).toString();
-					columna[3] = habitaciones.get(cont++).toString();
-					columna[4] = habitaciones.get(cont++).toString();
-					columna[5] = habitaciones.get(cont++).toString();
-					((DefaultTableModel) table.getModel()).addRow(columna);
-
-
-				}
+			buscarHabitacion();
 			
 		}
 			
 		});
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(42, 89, 596, 95);
+		scrollPane.setBounds(267, 45, 586, 226);
 		
 		JLabel lblNewLabel_2 = new JLabel("Piso");
-		lblNewLabel_2.setBounds(52, 226, 37, 14);
+		lblNewLabel_2.setBounds(306, 350, 37, 14);
 		
 		JLabel lblNewLabel_3 = new JLabel("Capacidad");
-		lblNewLabel_3.setBounds(52, 267, 76, 14);
+		lblNewLabel_3.setBounds(306, 378, 76, 14);
 		
 		JLabel lblNewLabel_4 = new JLabel("Precio");
-		lblNewLabel_4.setBounds(339, 223, 66, 14);
+		lblNewLabel_4.setBounds(536, 349, 66, 14);
 		
 		JLabel lblNewLabel_6 = new JLabel("Disponible");
-		lblNewLabel_6.setBounds(339, 268, 76, 14);
+		lblNewLabel_6.setBounds(522, 381, 76, 14);
 		
 		pisoNuevo = new JTextField();
-		pisoNuevo.setBounds(128, 223, 86, 20);
+		pisoNuevo.setBounds(382, 347, 86, 20);
 		pisoNuevo.setColumns(10);
 		
 		capacidadNueva = new JTextField();
-		capacidadNueva.setBounds(128, 264, 86, 20);
+		capacidadNueva.setBounds(382, 375, 86, 20);
 		capacidadNueva.setColumns(10);
 		
 		precioNuevo = new JTextField();
-		precioNuevo.setBounds(405, 220, 86, 20);
+		precioNuevo.setBounds(602, 346, 86, 20);
 		precioNuevo.setColumns(10);
 		
-		JRadioButton disponibleSi = new JRadioButton("Si");
-		disponibleSi.setBounds(405, 264, 49, 23);
-		buttonGroupDisponible.add(disponibleSi);
-		
-		JRadioButton disponibleNo = new JRadioButton("No");
-		disponibleNo.setBounds(456, 264, 49, 23);
-		buttonGroupDisponible.add(disponibleNo);
+
+		disponibleSi.setBounds(588, 377, 49, 23);
+		buttonGroupModificar.add(disponibleSi);
+
+		disponibleNo.setBounds(639, 377, 49, 23);
+		buttonGroupModificar.add(disponibleNo);
 		
 		JButton modificar = new JButton("Modificar");
 		modificar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				String disponible = null;
-//un peqeño if que pide que se muestre la habitacion qe se qiere modificar (puede pasar que este correcto y no haga falta modificarla)				
-
-				if(((DefaultTableModel) table.getModel()).getRowCount() != 0) {
-					
-					if(disponibleSi.isSelected()) {
-						disponible = disponibleSi.getText();
-					}else{
-						if(disponibleNo.isSelected()) {
-							disponible = disponibleNo.getText();
-						}
-					}				
-				
-					conectar.modificarHabitacion(criterioNumero.getText(), pisoNuevo.getText(), capacidadNueva.getText(), precioNuevo.getText(), disponible);
-				}
-
-				criterioNumero.setText("");;
-				pisoNuevo.setText("");
-				capacidadNueva.setText("");
-				precioNuevo.setText("");
+				modificarHabitacion();
 			}
 		});
-		modificar.setBounds(239, 326, 102, 31);
+		modificar.setBounds(718, 307, 145, 23);
 		
 		JButton volver = new JButton("Volver");
-		volver.setBounds(552, 330, 86, 23);
+		volver.setBounds(718, 377, 145, 23);
 		
 		table = new JTable();
 		table.setModel(new DefaultTableModel(
@@ -212,6 +185,190 @@ agrega agrega cada dato rescatado de la bbdd y luego lo agrega a la tabla de la 
 		panel.add(modificar);
 		panel.add(volver);
 		panel.add(scrollPane);
+		
+		JLabel lblNewLabel_1 = new JLabel("Piso");
+		lblNewLabel_1.setBounds(42, 94, 46, 14);
+		panel.add(lblNewLabel_1);
+		
+		criterioPiso = new JTextField();
+		criterioPiso.setBounds(143, 91, 86, 20);
+		panel.add(criterioPiso);
+		criterioPiso.setColumns(10);
+		
+		JLabel lblNewLabel_5 = new JLabel("Capacidad");
+		lblNewLabel_5.setBounds(42, 131, 76, 14);
+		panel.add(lblNewLabel_5);
+		
+		criterioCapacidad = new JTextField();
+		criterioCapacidad.setBounds(143, 128, 86, 20);
+		panel.add(criterioCapacidad);
+		criterioCapacidad.setColumns(10);
+		
+		criterioPrecio = new JTextField();
+		criterioPrecio.setBounds(143, 162, 86, 20);
+		panel.add(criterioPrecio);
+		criterioPrecio.setColumns(10);
+		
+		JLabel lblNewLabel_7 = new JLabel("Precio");
+		lblNewLabel_7.setBounds(42, 165, 46, 14);
+		panel.add(lblNewLabel_7);
+		
+		JLabel lblNewLabel_8 = new JLabel("Disponible");
+		lblNewLabel_8.setBounds(42, 279, 76, 14);
+		panel.add(lblNewLabel_8);
+
+		buttonGroupCriterioDisponible.add(criterioDisponibleSi);
+		criterioDisponibleSi.setBounds(124, 275, 46, 23);
+		panel.add(criterioDisponibleSi);
+		
+
+		buttonGroupCriterioDisponible.add(criterioDisponibleNo);
+		criterioDisponibleNo.setBounds(183, 276, 46, 20);
+		panel.add(criterioDisponibleNo);
+		
+		JButton btnNewButton = new JButton("Limpiar busqueda");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				criterioNumero.setText("");
+				criterioPiso.setText("");
+				criterioCapacidad.setText("");
+				criterioPrecio.setText("");
+				
+			}
+		});
+		btnNewButton.setBounds(42, 361, 187, 23);
+		panel.add(btnNewButton);
+		
+		JButton btnNewButton_1 = new JButton("Limpiar cambios");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				pisoNuevo.setText("");
+				capacidadNueva.setText("");
+				precioNuevo.setText("");
+			}
+		});
+		btnNewButton_1.setBounds(718, 341, 145, 23);
+		panel.add(btnNewButton_1);
+		
+		JLabel lblNewLabel_9 = new JLabel("Tipo");
+		lblNewLabel_9.setBounds(115, 204, 46, 14);
+		panel.add(lblNewLabel_9);
+		
+		buttonGroupCriterioTipo.add(criterioDeluxe);
+		criterioDeluxe.setBounds(181, 229, 66, 23);
+		panel.add(criterioDeluxe);
+		
+		buttonGroupCriterioTipo.add(criterioSuper);
+		criterioSuper.setBounds(115, 229, 66, 23);
+		panel.add(criterioSuper);
+		
+		
+		buttonGroupCriterioTipo.add(criterioNormal);
+		criterioNormal.setBounds(42, 229, 66, 23);
+		panel.add(criterioNormal);
+		
+		JLabel lblNewLabel_10 = new JLabel("Numero de habitacion a modificar");
+		lblNewLabel_10.setBounds(320, 307, 196, 14);
+		panel.add(lblNewLabel_10);
+		
+		numeroHabitacionModificar = new JTextField();
+		numeroHabitacionModificar.setBounds(538, 304, 86, 20);
+		panel.add(numeroHabitacionModificar);
+		numeroHabitacionModificar.setColumns(10);
 		frmModificarHabitacion.getContentPane().setLayout(groupLayout);
 	}
+	
+	public void buscarHabitacion() {
+		//limpiar la tabla para que este vacia					
+		while(((DefaultTableModel) table.getModel()).getRowCount() != 0) {
+			((DefaultTableModel) table.getModel()).removeRow(0);
+		}
+		
+		ArrayList<String> habitaciones = new ArrayList<String>();
+		int numCols = table.getModel().getColumnCount();
+		Object [] columna = new Object[numCols]; 
+		int cont = 0;
+		
+		if(criterioNormal.isSelected()) {
+			tipoHabitacionCriterio = criterioNormal.getText();		
+		}else {
+			if(criterioSuper.isSelected()) {
+				tipoHabitacionCriterio = criterioSuper.getText();		
+			}
+			else {
+				if(criterioDeluxe.isSelected()) {
+					tipoHabitacionCriterio = criterioDeluxe.getText();		
+				}
+				else {
+					tipoHabitacionCriterio = "";
+				}
+			}
+		}
+		
+		if(criterioDisponibleSi.isSelected()) {
+			disponibleCriterio = criterioDisponibleSi.getText();
+		}else {
+			if(criterioDisponibleNo.isSelected()) {
+				disponibleCriterio = criterioDisponibleNo.getText();
+			}else{
+				disponibleCriterio = "";
+			}
+		}
+		
+		habitaciones = conectar.buscarHabitacion(criterioNumero.getText(),criterioPiso.getText(),criterioCapacidad.getText(),criterioPrecio.getText(), tipoHabitacionCriterio, disponibleCriterio);
+
+		
+/*
+agrega agrega cada dato rescatado de la bbdd y luego lo agrega a la tabla de la interfaz con la ultima linea
+* */					
+		while( cont < habitaciones.size()) {
+
+			columna[0] = habitaciones.get(cont++).toString();
+			columna[1] = habitaciones.get(cont++).toString();
+			columna[2] = habitaciones.get(cont++).toString();
+			columna[3] = habitaciones.get(cont++).toString();
+			columna[4] = habitaciones.get(cont++).toString();
+			columna[5] = habitaciones.get(cont++).toString();
+			((DefaultTableModel) table.getModel()).addRow(columna);
+
+
+		}
+	}
+	
+	public void modificarHabitacion() {
+	
+		
+		//un peqeño if que pide que se muestre la habitacion qe se qiere modificar (puede pasar que este correcto y no haga falta modificarla)				
+
+						if(((DefaultTableModel) table.getModel()).getRowCount() != 0) {
+							
+							if(disponibleSi.isSelected()) {
+								disponible = disponibleSi.getText();
+							}else{
+								if(disponibleNo.isSelected()) {
+									disponible = disponibleNo.getText();
+								}
+								else {
+									disponible = "";
+								}
+							}				
+								
+							if(numeroHabitacionModificar.getText().equals("")) {
+								JOptionPane.showMessageDialog(frmModificarHabitacion, "Indique numero para poder modificar");
+							}
+							else {
+								conectar.modificarHabitacion(numeroHabitacionModificar.getText(), pisoNuevo.getText(), capacidadNueva.getText(), precioNuevo.getText(), disponible);																
+							}
+							
+
+
+
+						}
+
+						
+											
+		
+	}
+	
+	
 }
