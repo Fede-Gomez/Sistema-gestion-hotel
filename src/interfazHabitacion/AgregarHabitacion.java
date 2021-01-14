@@ -1,4 +1,4 @@
-package interfaz;
+package interfazHabitacion;
 
 import java.awt.EventQueue;
 
@@ -13,8 +13,10 @@ import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
-import conectarBBDD.Conectar;
+import conectarBBDD.ConectarHabitacion;
 import habitaciones.*;
+import interfaz.Inicio;
+import validaciones.Validaciones;
 
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -27,7 +29,7 @@ public class AgregarHabitacion {
 	private JTextField capacidad;
 	private JTextField precio;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
-	private Conectar conectar = new Conectar();
+	private ConectarHabitacion conectar = new ConectarHabitacion();
 	private JRadioButton normal = new JRadioButton("Normal");
 	private JRadioButton Super = new JRadioButton("Super");
 	private JRadioButton deluxe = new JRadioButton("Deluxe");
@@ -112,25 +114,22 @@ public class AgregarHabitacion {
 			public void actionPerformed(ActionEvent e) {
 				
 				
-				while(num.getText().equals("")) {
+				while(num.getText().equals("") || !Validaciones.validarNumero(num.getText())) {
 					num.setText(JOptionPane.showInputDialog("Ingrese un numero"));
 				}
-				while(piso.getText().equals("")) {
+				while(piso.getText().equals("") || !Validaciones.validarNumero(piso.getText())) {
 					piso.setText(JOptionPane.showInputDialog("Ingrese el piso"));
 				}
-				while(capacidad.getText().equals("")) {
+				while(capacidad.getText().equals("") || !Validaciones.validarNumero(capacidad.getText())) {
 					capacidad.setText(JOptionPane.showInputDialog("Ingrese la capacidad"));
 				}
-				while(precio.getText().equals("")) {
+				while(precio.getText().equals("") ||  !Validaciones.validarNumero(precio.getText())) {
 					precio.setText(JOptionPane.showInputDialog("Ingrese un precio"));
 				}
 					
 				crearHabitacion();
 				
-				num.setText("");
-				piso.setText("");
-				capacidad.setText("");
-				precio.setText("");
+				limpiarCampos();
 				
 			}
 		});
@@ -138,11 +137,8 @@ public class AgregarHabitacion {
 		JButton borrar = new JButton("Limpiar");
 		borrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				capacidad.setText("");
-				piso.setText("");
-				num.setText("");
-				precio.setText("");
 		
+				limpiarCampos();
 			}
 		});
 		
@@ -259,4 +255,10 @@ public class AgregarHabitacion {
 		}
 	}
 	
+	public void limpiarCampos() {
+		capacidad.setText("");
+		piso.setText("");
+		num.setText("");
+		precio.setText("");
+	}
 }

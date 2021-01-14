@@ -1,4 +1,4 @@
-package interfaz;
+package interfazHabitacion;
 
 import java.awt.EventQueue;
 
@@ -10,7 +10,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-import conectarBBDD.Conectar;
+import conectarBBDD.ConectarHabitacion;
+import interfaz.Inicio;
 
 import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
@@ -22,13 +23,15 @@ import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class EliminarHabitacion {
 
 	private JFrame frmEliminarHabitacion;
 	private JTable table;
 	private JTextField numero;
-	private Conectar conectar = new Conectar();
+	private ConectarHabitacion conectar = new ConectarHabitacion();
 	private JTextField capacidad;
 	private JTextField piso;
 	private JTextField precio;
@@ -41,6 +44,7 @@ public class EliminarHabitacion {
 	private JRadioButton disponibleNo = new JRadioButton("No");
 	private String tipoHabitacion;
 	private String disponible;
+	private String habitacionSeleccionado;
 	/**
 	 * Launch the application.
 	 */
@@ -88,15 +92,12 @@ public class EliminarHabitacion {
 		scrollPane.setBounds(10, 228, 538, 228);
 		
 		JButton eliminar = new JButton("Eliminar habitacion");
-		eliminar.setBounds(138, 487, 121, 23);
+		eliminar.setBounds(105, 487, 154, 23);
 		eliminar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			
 				
 				eliminarHabitacion();
-				
-				
-
 				
 			}
 		});
@@ -149,13 +150,9 @@ public class EliminarHabitacion {
 				}
 				
 			buscarHabitacion();
+			limpiarCampos(); 
+				
 			
-			numero.setText("");
-			capacidad.setText("");
-			piso.setText("");
-			precio.setText("");
-			tipoHabitacion = "";
-			disponible = "";
 			
 		}
 	});
@@ -182,6 +179,13 @@ public class EliminarHabitacion {
 		precio.setColumns(10);
 		
 		table = new JTable();
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+				seleccionarEmpleadoEnLaTabla();
+			}
+		});
 		table.setModel(new DefaultTableModel(
 			new Object[][] {
 			},
@@ -270,28 +274,41 @@ agrega agrega cada dato rescatado de la bbdd y luego lo agrega a la tabla de la 
 	public void eliminarHabitacion() {
 		
 		
-		if(((DefaultTableModel) table.getModel()).getRowCount() != 0) {
-			
-			
-				
-			if(numero.getText().equals("")) {
-				JOptionPane.showMessageDialog(frmEliminarHabitacion, "Indique numero para poder modificar");
+		if(table.getSelectedRow() != -1) {
+			int decision = JOptionPane.showConfirmDialog(frmEliminarHabitacion, "Estas seguro?");
+			if(decision == 0) {
+				conectar.eliminarHabitacion(habitacionSeleccionado);					
+				((DefaultTableModel) table.getModel()).removeRow(0);
 			}
-			else {
-				int decision = JOptionPane.showConfirmDialog(frmEliminarHabitacion, "Estas seguro?");
-				System.out.println(decision);
-				if(decision == 0) {
-					conectar.eliminarHabitacion(numero.getText());					
-					((DefaultTableModel) table.getModel()).removeRow(0);
-				}
-			}
-
-
 
 		}
+		else {
+			JOptionPane.showMessageDialog(frmEliminarHabitacion, "Indique numero para poder eliminarla");
+		}
 		
+
+
+	}
 		
-		
-		
+
+
+	public void seleccionarEmpleadoEnLaTabla() {
+		try{
+			int seleccion = table.getSelectedRow();
+			habitacionSeleccionado = table.getValueAt(seleccion, 0).toString();
+			
+		}catch(Exception f) {
+			f.printStackTrace();
+		}
+
+	}
+	
+	public void limpiarCampos() {
+		numero.setText("");
+		capacidad.setText("");
+		piso.setText("");
+		precio.setText("");
+		tipoHabitacion = "";
+		disponible = "";
 	}
 }

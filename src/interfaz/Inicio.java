@@ -10,6 +10,17 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.UIManager;
 
+import interfazCliente.ListarClientes;
+import interfazCliente.ModificarCliente;
+import interfazEmpleado.AgregarEmpleado;
+import interfazEmpleado.EliminarEmpleado;
+import interfazEmpleado.ListarEmpleados;
+import interfazEmpleado.ModificarEmpleado;
+import interfazHabitacion.AgregarHabitacion;
+import interfazHabitacion.EliminarHabitacion;
+import interfazHabitacion.ListarHabitaciones;
+import interfazHabitacion.ModificarHabitacion;
+
 public class Inicio {
 
 	private JFrame frmInicio;
@@ -126,10 +137,23 @@ public class Inicio {
 		panelEmpleados.add(mostrarEmpleado);
 		
 		JButton eliminarEmpleado = new JButton("Eliminar empleado");
+		eliminarEmpleado.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				EliminarEmpleado.main(null);
+				frmInicio.dispose();
+			}
+		});
 		eliminarEmpleado.setBounds(589, 11, 159, 23);
 		panelEmpleados.add(eliminarEmpleado);
 		
 		JButton modificarEmpleado = new JButton("Modificar empleado");
+		modificarEmpleado.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ModificarEmpleado.main(null);
+				frmInicio.dispose();
+
+			}
+		});
 		modificarEmpleado.setBounds(399, 11, 166, 23);
 		panelEmpleados.add(modificarEmpleado);
 		
@@ -193,6 +217,12 @@ public class Inicio {
 		panelCliente.add(agregarCliente);
 		
 		JButton mostrarCliente = new JButton("Mostrar clientes");
+		mostrarCliente.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ListarClientes.main(null);
+				frmInicio.dispose();
+			}
+		});
 		mostrarCliente.setBounds(203, 11, 167, 23);
 		panelCliente.add(mostrarCliente);
 		
@@ -201,6 +231,12 @@ public class Inicio {
 		panelCliente.add(eliminarCliente);
 		
 		JButton modificarCliente = new JButton("Modificar Cliente");
+		modificarCliente.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ModificarCliente.main(null);
+				frmInicio.dispose();
+			}
+		});
 		modificarCliente.setBounds(400, 11, 167, 23);
 		panelCliente.add(modificarCliente);
 		frmInicio.getContentPane().setLayout(null);

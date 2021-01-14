@@ -9,7 +9,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 
-import conectarBBDD.Conectar;
+import conectarBBDD.ConectarLogin;
 
 import javax.swing.JPasswordField;
 import javax.swing.GroupLayout;
@@ -61,7 +61,7 @@ public class Login {
 		JButton ingresar = new JButton("Ingresar");
 		ingresar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Conectar con = new Conectar();
+				ConectarLogin con = new ConectarLogin();
 				if(con.usuarioContraseñaDelLogin(usuario.getText(), contraseña.getText())){
 					Inicio.main(null);
 					frame.dispose();

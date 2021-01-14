@@ -1,4 +1,4 @@
-package interfaz;
+package interfazHabitacion;
 
 import java.awt.EventQueue;
 
@@ -14,10 +14,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-import conectarBBDD.Conectar;
-import habitaciones.habitacionDeluxe;
-import habitaciones.habitacionNormal;
-import habitaciones.habitacionSuper;
+import conectarBBDD.ConectarHabitacion;
+
 
 import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
@@ -33,7 +31,7 @@ public class ModificarHabitacion {
 	private JTextField pisoNuevo;
 	private JTextField capacidadNueva;
 	private JTextField precioNuevo;
-	private Conectar conectar = new Conectar();
+	private ConectarHabitacion conectar = new ConectarHabitacion();
 	private final ButtonGroup buttonGroupModificar = new ButtonGroup();
 	private JTextField criterioPiso;
 	private JTextField criterioCapacidad;
@@ -82,7 +80,7 @@ public class ModificarHabitacion {
 		frmModificarHabitacion = new JFrame();
 		frmModificarHabitacion.setTitle("Modificar habitacion");
 		frmModificarHabitacion.setResizable(false);
-		frmModificarHabitacion.setBounds(100, 100, 883, 459);
+		frmModificarHabitacion.setBounds(100, 100, 934, 569);
 		frmModificarHabitacion.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JPanel panel = new JPanel();
@@ -103,8 +101,8 @@ public class ModificarHabitacion {
 		criterioNumero.setBounds(143, 49, 86, 20);
 		criterioNumero.setColumns(10);
 		
-		JButton buscar = new JButton("Buscar habitacion");
-		buscar.setBounds(42, 317, 187, 23);
+		JButton buscar = new JButton("Ver habitacion");
+		buscar.setBounds(279, 282, 163, 23);
 		buscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -115,50 +113,55 @@ public class ModificarHabitacion {
 		});
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(267, 45, 586, 226);
+		scrollPane.setBounds(279, 45, 639, 226);
 		
 		JLabel lblNewLabel_2 = new JLabel("Piso");
-		lblNewLabel_2.setBounds(306, 350, 37, 14);
+		lblNewLabel_2.setBounds(159, 410, 37, 14);
 		
 		JLabel lblNewLabel_3 = new JLabel("Capacidad");
-		lblNewLabel_3.setBounds(306, 378, 76, 14);
+		lblNewLabel_3.setBounds(153, 448, 76, 14);
 		
 		JLabel lblNewLabel_4 = new JLabel("Precio");
-		lblNewLabel_4.setBounds(536, 349, 66, 14);
+		lblNewLabel_4.setBounds(159, 481, 66, 14);
 		
 		JLabel lblNewLabel_6 = new JLabel("Disponible");
-		lblNewLabel_6.setBounds(522, 381, 76, 14);
+		lblNewLabel_6.setBounds(366, 448, 76, 14);
 		
 		pisoNuevo = new JTextField();
-		pisoNuevo.setBounds(382, 347, 86, 20);
+		pisoNuevo.setBounds(255, 407, 86, 20);
 		pisoNuevo.setColumns(10);
 		
 		capacidadNueva = new JTextField();
-		capacidadNueva.setBounds(382, 375, 86, 20);
+		capacidadNueva.setBounds(255, 445, 86, 20);
 		capacidadNueva.setColumns(10);
 		
 		precioNuevo = new JTextField();
-		precioNuevo.setBounds(602, 346, 86, 20);
+		precioNuevo.setBounds(256, 478, 86, 20);
 		precioNuevo.setColumns(10);
 		
 
-		disponibleSi.setBounds(588, 377, 49, 23);
+		disponibleSi.setBounds(440, 425, 49, 23);
 		buttonGroupModificar.add(disponibleSi);
 
-		disponibleNo.setBounds(639, 377, 49, 23);
+		disponibleNo.setBounds(440, 469, 49, 23);
 		buttonGroupModificar.add(disponibleNo);
 		
 		JButton modificar = new JButton("Modificar");
 		modificar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				modificarHabitacion();
+				if(numeroHabitacionModificar.getText().equals("")) {
+					JOptionPane.showMessageDialog(frmModificarHabitacion, "Indique numero para poder modificar");
+				}
+				else {
+					modificarHabitacion();					
+				}
+
 			}
 		});
-		modificar.setBounds(718, 307, 145, 23);
+		modificar.setBounds(563, 410, 145, 23);
 		
 		JButton volver = new JButton("Volver");
-		volver.setBounds(718, 377, 145, 23);
+		volver.setBounds(773, 506, 145, 23);
 		
 		table = new JTable();
 		table.setModel(new DefaultTableModel(
@@ -236,7 +239,7 @@ public class ModificarHabitacion {
 				
 			}
 		});
-		btnNewButton.setBounds(42, 361, 187, 23);
+		btnNewButton.setBounds(755, 282, 163, 23);
 		panel.add(btnNewButton);
 		
 		JButton btnNewButton_1 = new JButton("Limpiar cambios");
@@ -247,7 +250,7 @@ public class ModificarHabitacion {
 				precioNuevo.setText("");
 			}
 		});
-		btnNewButton_1.setBounds(718, 341, 145, 23);
+		btnNewButton_1.setBounds(563, 477, 145, 23);
 		panel.add(btnNewButton_1);
 		
 		JLabel lblNewLabel_9 = new JLabel("Tipo");
@@ -268,11 +271,11 @@ public class ModificarHabitacion {
 		panel.add(criterioNormal);
 		
 		JLabel lblNewLabel_10 = new JLabel("Numero de habitacion a modificar");
-		lblNewLabel_10.setBounds(320, 307, 196, 14);
+		lblNewLabel_10.setBounds(207, 367, 196, 14);
 		panel.add(lblNewLabel_10);
 		
 		numeroHabitacionModificar = new JTextField();
-		numeroHabitacionModificar.setBounds(538, 304, 86, 20);
+		numeroHabitacionModificar.setBounds(425, 364, 86, 20);
 		panel.add(numeroHabitacionModificar);
 		numeroHabitacionModificar.setColumns(10);
 		frmModificarHabitacion.getContentPane().setLayout(groupLayout);
@@ -353,12 +356,8 @@ agrega agrega cada dato rescatado de la bbdd y luego lo agrega a la tabla de la 
 								}
 							}				
 								
-							if(numeroHabitacionModificar.getText().equals("")) {
-								JOptionPane.showMessageDialog(frmModificarHabitacion, "Indique numero para poder modificar");
-							}
-							else {
+							
 								conectar.modificarHabitacion(numeroHabitacionModificar.getText(), pisoNuevo.getText(), capacidadNueva.getText(), precioNuevo.getText(), disponible);																
-							}
 							
 
 

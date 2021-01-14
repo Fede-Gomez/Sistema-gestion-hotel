@@ -3,14 +3,15 @@ package personal;
 
 public class Empleado {
     private String nombre, apellido,cargo,usuario,contraseña;
-    private int DNI;
+    private int DNI, legajo;
     private double sueldo;
     
     public Empleado(){
         
     }
 
-	public Empleado(String nombre, String apellido, double sueldo, int dNI, String cargo,String usuario, String contraseña) {
+	public Empleado(int legajo, String nombre, String apellido, double sueldo, int dNI, String cargo,String usuario, String contraseña) {
+		this.legajo = legajo;
 		this.nombre = nombre;
 		this.apellido = apellido;
 		this.DNI = dNI;
@@ -19,7 +20,14 @@ public class Empleado {
 		this.usuario = usuario;
 		this.contraseña = contraseña;
 	}
-
+	public int getLegajo() {
+		return legajo;
+	}
+	
+	public void setLegajo(int legajo) {
+		this.legajo = legajo;
+	}
+	
 	public String getNombre() {
 		return nombre;
 	}
@@ -42,7 +50,7 @@ public class Empleado {
 	}
 
 	public void setDNI(int dNI) {
-		DNI = dNI;
+		this.DNI = dNI;
 	}
 
 	public double getSueldo() {

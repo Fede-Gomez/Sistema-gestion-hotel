@@ -1,4 +1,4 @@
-package interfaz;
+package interfazHabitacion;
 
 import java.awt.EventQueue;
 
@@ -9,8 +9,8 @@ import javax.swing.JTable;
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
 
-import conectarBBDD.Conectar;
-
+import conectarBBDD.ConectarHabitacion;
+import interfaz.Inicio;
 
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
@@ -34,7 +34,7 @@ public class ListarHabitaciones {
 	private JTextField piso;
 	private JTextField capacidad;
 	private JTextField precio;
-	private Conectar conectar = new Conectar();
+	private ConectarHabitacion conectar = new ConectarHabitacion();
 	private final ButtonGroup tipoHabiacion = new ButtonGroup();
 	private String disponible;
 	private JRadioButton disponibleSi = new JRadioButton("Si");

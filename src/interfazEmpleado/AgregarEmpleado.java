@@ -1,4 +1,4 @@
-package interfaz;
+package interfazEmpleado;
 
 import java.awt.EventQueue;
 
@@ -7,6 +7,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 import personal.*;
+import validaciones.Validaciones;
 
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -17,7 +18,8 @@ import javax.swing.JScrollPane;
 import javax.swing.AbstractListModel;
 import javax.swing.ListSelectionModel;
 
-import conectarBBDD.Conectar;
+import conectarBBDD.ConectarEmpleado;
+import interfaz.Inicio;
 
 public class AgregarEmpleado {
 
@@ -28,8 +30,10 @@ public class AgregarEmpleado {
 	private JTextField sueldo;
 	private JTextField usuario;
 	private JTextField contraseña;
-	private Conectar conectar = new Conectar();
+	private ConectarEmpleado conectar = new ConectarEmpleado();
 	private Empleado empleado;
+	private JTextField legajo;
+	private JList list = new JList();
 	/**
 	 * Launch the application.
 	 */
@@ -77,7 +81,7 @@ public class AgregarEmpleado {
 		frmAgregarEmpleado.getContentPane().add(lblNewLabel_2);
 		
 		JLabel lblNewLabel_3 = new JLabel("Cargo");
-		lblNewLabel_3.setBounds(112, 199, 46, 14);
+		lblNewLabel_3.setBounds(225, 220, 46, 14);
 		frmAgregarEmpleado.getContentPane().add(lblNewLabel_3);
 		
 		JLabel lblNewLabel_4 = new JLabel("Sueldo");
@@ -105,30 +109,28 @@ public class AgregarEmpleado {
 		sueldo.setColumns(10);
 		
 		JButton btnNewButton = new JButton("Confirmar");
-		
 		btnNewButton.setBounds(32, 290, 113, 23);
 		frmAgregarEmpleado.getContentPane().add(btnNewButton);
 		
 		JButton btnNewButton_1 = new JButton("Limpiar");
-	
 		btnNewButton_1.setBounds(190, 290, 113, 23);
 		frmAgregarEmpleado.getContentPane().add(btnNewButton_1);
 		
 		JButton btnNewButton_2 = new JButton("Volver");
+		btnNewButton_2.setBounds(356, 290, 113, 23);
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Inicio.main(null);
 				frmAgregarEmpleado.dispose();
 			}
 		});
-		btnNewButton_2.setBounds(356, 290, 113, 23);
 		frmAgregarEmpleado.getContentPane().add(btnNewButton_2);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(219, 158, 132, 96);
+		scrollPane.setBounds(303, 165, 132, 96);
 		frmAgregarEmpleado.getContentPane().add(scrollPane);
 		
-		JList list = new JList();
+		
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		list.setModel(new AbstractListModel() {
 			String[] values = new String[] {"Director general", "Barman", "Camarero", "Cocinero", "Auxiliar de cocina", "Conserje", "Mantenimiento", "Recepcionista", "Seguridad"};
@@ -159,15 +161,18 @@ public class AgregarEmpleado {
 		frmAgregarEmpleado.getContentPane().add(contraseña);
 		contraseña.setColumns(10);
 		
+		JLabel lblNewLabel_7 = new JLabel("Legajo");
+		lblNewLabel_7.setBounds(32, 146, 46, 14);
+		frmAgregarEmpleado.getContentPane().add(lblNewLabel_7);
+		
+		legajo = new JTextField();
+		legajo.setBounds(107, 143, 104, 20);
+		frmAgregarEmpleado.getContentPane().add(legajo);
+		legajo.setColumns(10);
+		
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				nombre.setText("");
-				apellido.setText("");
-				dni.setText("");
-				list.clearSelection();
-				sueldo.setText("");
-				usuario.setText("");
-				contraseña.setText("");
+				limpiarCampos();
 			}
 		});
 		
@@ -175,23 +180,26 @@ public class AgregarEmpleado {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 								
-				while(nombre.getText().equals("")) {
+				while(nombre.getText().equals("") || !Validaciones.validarNombreYApellido(nombre.getText())) {
 					nombre.setText(JOptionPane.showInputDialog("Ingrese un nombre"));
 				}
-				while(apellido.getText().equals("")) {
+				while(apellido.getText().equals("") || !Validaciones.validarNombreYApellido(nombre.getText())) {
 					apellido.setText(JOptionPane.showInputDialog("Ingrese un apellido"));
 				}
-				while(dni.getText().equals("") && dni.getText().length() != 8) {
+				while(dni.getText().equals("") || !Validaciones.valirdarDNI(dni.getText())) {
 					dni.setText(JOptionPane.showInputDialog("Ingrese un DNI con 8 digitos"));
 				}
-				while(sueldo.getText().equals("")) {
+				while(sueldo.getText().equals("") || !Validaciones.validarNumero(sueldo.getText())) {
 					sueldo.setText(JOptionPane.showInputDialog("Ingrese un sueldo"));
 				}
 				while(usuario.getText().equals("")) {
 					usuario.setText(JOptionPane.showInputDialog("Ingrese un usuario"));
 				}
 				while(contraseña.getText().equals("")) {
-					contraseña.setText(JOptionPane.showInputDialog("Ingrese un contraseña"));
+					contraseña.setText(JOptionPane.showInputDialog("Ingrese una contraseña"));
+				}
+				while(legajo.getText().equals("")) {
+					legajo.setText(JOptionPane.showInputDialog("Ingrese numero de legajo"));
 				}
 				if(list.isSelectionEmpty()) {
 					JOptionPane.showMessageDialog(frmAgregarEmpleado, "Ingrese un cargo");
@@ -211,47 +219,47 @@ public class AgregarEmpleado {
 		switch(cargo) {
 				
 			case 0: {
-				empleado = new DirectorGeneral(nombre.getText(),apellido.getText(),Integer.parseInt(dni.getText()),Double.parseDouble(sueldo.getText()), "Director general", usuario.getText(), contraseña.getText());
+				empleado = new DirectorGeneral(Integer.parseInt(legajo.getText()),nombre.getText(),apellido.getText(),Integer.parseInt(dni.getText()),Double.parseDouble(sueldo.getText()) , "director general", usuario.getText(), contraseña.getText());
 				break;
 			}
 					
 			case 1: {
-					empleado = new Barman(nombre.getText(),apellido.getText(),Integer.parseInt(dni.getText()),Double.parseDouble(sueldo.getText()), "Barman", usuario.getText(), contraseña.getText()); 
+					empleado = new Barman(Integer.parseInt(legajo.getText()),nombre.getText(),apellido.getText(),Integer.parseInt(dni.getText()),Double.parseDouble(sueldo.getText()) , "barman", usuario.getText(), contraseña.getText());
 					break;
 			}
 					
 			case 2: {
-					empleado = new Camarero(nombre.getText(),apellido.getText(),Integer.parseInt(dni.getText()),Double.parseDouble(sueldo.getText()), "Camarero", usuario.getText(), contraseña.getText()); 
+					empleado = new Camarero(Integer.parseInt(legajo.getText()),nombre.getText(),apellido.getText(),Integer.parseInt(dni.getText()),Double.parseDouble(sueldo.getText()) , "camarero", usuario.getText(), contraseña.getText());
 					break;
 			}
 		
 			case 3:{
-					empleado = new Cocinero(nombre.getText(),apellido.getText(),Integer.parseInt(dni.getText()),Double.parseDouble(sueldo.getText()), "Cocinero", usuario.getText(), contraseña.getText()); 
+					empleado = new Cocinero(Integer.parseInt(legajo.getText()),nombre.getText(),apellido.getText(),Integer.parseInt(dni.getText()),Double.parseDouble(sueldo.getText()) , "cocinero", usuario.getText(), contraseña.getText());
 					break;
 			}
 		
 			case 4:{
-					empleado = new AuxiliarCocina(nombre.getText(),apellido.getText(),Integer.parseInt(dni.getText()),Double.parseDouble(sueldo.getText()), "Auxiliar de cocina", usuario.getText(), contraseña.getText()); 
+					empleado = new AuxiliarCocina(Integer.parseInt(legajo.getText()),nombre.getText(),apellido.getText(),Integer.parseInt(dni.getText()),Double.parseDouble(sueldo.getText()) , "auxiliar cocina", usuario.getText(), contraseña.getText()); 
 					break;
 			}
 			
 			case 5:{
-					empleado = new Conserje(nombre.getText(),apellido.getText(),Integer.parseInt(dni.getText()),Double.parseDouble(sueldo.getText()), "Conserje", usuario.getText(), contraseña.getText()); 
+					empleado = new Conserje(Integer.parseInt(legajo.getText()),nombre.getText(),apellido.getText(),Integer.parseInt(dni.getText()),Double.parseDouble(sueldo.getText()) , "concerje", usuario.getText(), contraseña.getText());
 					break;
 			}
 			
 			case 6:{
-					empleado = new Mantenimiento(nombre.getText(),apellido.getText(),Integer.parseInt(dni.getText()),Double.parseDouble(sueldo.getText()), "Mantenimiento", usuario.getText(), contraseña.getText()); 
+					empleado = new Mantenimiento(Integer.parseInt(legajo.getText()),nombre.getText(),apellido.getText(),Integer.parseInt(dni.getText()),Double.parseDouble(sueldo.getText()) , "mantenimiento", usuario.getText(), contraseña.getText()); 
 					break;
 			}
 			
 			case 7:{
-					empleado = new Recepcionista(nombre.getText(),apellido.getText(),Integer.parseInt(dni.getText()),Double.parseDouble(sueldo.getText()), "Recepcionista", usuario.getText(), contraseña.getText()); 
+					empleado = new Recepcionista((Integer.parseInt(legajo.getText())),nombre.getText(),apellido.getText(),Integer.parseInt(dni.getText()),Double.parseDouble(sueldo.getText()) , "recepcionista", usuario.getText(), contraseña.getText()); 
 					break;
 			}
 			
 			case 8:{
-					empleado = new Seguridad(nombre.getText(),apellido.getText(),Integer.parseInt(dni.getText()),Double.parseDouble(sueldo.getText()), "Seguridad", usuario.getText(), contraseña.getText()); 
+					empleado = new Seguridad(Integer.parseInt(legajo.getText()),nombre.getText(),apellido.getText(),Integer.parseInt(dni.getText()),Double.parseDouble(sueldo.getText()) , "seguridad", usuario.getText(), contraseña.getText());
 					break;
 			}
 			default:
@@ -260,6 +268,18 @@ public class AgregarEmpleado {
 		
 		conectar.agregarEmpleado(empleado);
 	}
+	
+	
+	public void limpiarCampos() {
+		nombre.setText("");
+		apellido.setText("");
+		dni.setText("");
+		list.clearSelection();
+		sueldo.setText("");
+		usuario.setText("");
+		contraseña.setText("");
+	}
+	
 }
 
 

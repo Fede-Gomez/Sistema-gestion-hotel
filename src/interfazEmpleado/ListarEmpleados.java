@@ -1,4 +1,4 @@
-package interfaz;
+package interfazEmpleado;
 
 import java.awt.EventQueue;
 
@@ -10,7 +10,8 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.table.DefaultTableModel;
 
-import conectarBBDD.Conectar;
+import conectarBBDD.ConectarEmpleado;
+import interfaz.Inicio;
 
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -25,7 +26,9 @@ public class ListarEmpleados {
 	private JTextField sueldo;
 	private JTextField cargo;
 	private JTextField usuario;
-	private Conectar conectar = new Conectar();
+	private ConectarEmpleado conectar = new ConectarEmpleado();
+	private JTextField legajo;
+	private JTextField dni;
 
 	/**
 	 * Launch the application.
@@ -61,23 +64,23 @@ public class ListarEmpleados {
 		frmMostrarEmpleados.getContentPane().setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("Nombre");
-		lblNewLabel.setBounds(32, 48, 87, 14);
+		lblNewLabel.setBounds(33, 109, 70, 14);
 		frmMostrarEmpleados.getContentPane().add(lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("Apellido");
-		lblNewLabel_1.setBounds(32, 108, 46, 14);
+		lblNewLabel_1.setBounds(33, 137, 46, 14);
 		frmMostrarEmpleados.getContentPane().add(lblNewLabel_1);
 		
 		JLabel lblNewLabel_2 = new JLabel("Sueldo");
-		lblNewLabel_2.setBounds(32, 161, 46, 14);
+		lblNewLabel_2.setBounds(33, 188, 46, 14);
 		frmMostrarEmpleados.getContentPane().add(lblNewLabel_2);
 		
 		JLabel lblNewLabel_3 = new JLabel("Cargo");
-		lblNewLabel_3.setBounds(32, 211, 46, 14);
+		lblNewLabel_3.setBounds(33, 219, 46, 14);
 		frmMostrarEmpleados.getContentPane().add(lblNewLabel_3);
 		
 		JLabel lblNewLabel_4 = new JLabel("Usuario");
-		lblNewLabel_4.setBounds(32, 262, 46, 14);
+		lblNewLabel_4.setBounds(33, 250, 46, 14);
 		frmMostrarEmpleados.getContentPane().add(lblNewLabel_4);
 		
 		JScrollPane scrollPane = new JScrollPane();
@@ -89,37 +92,43 @@ public class ListarEmpleados {
 			new Object[][] {
 			},
 			new String[] {
-				"Nombre", "Apellido", "DNI", "Cargo", "Sueldo", "Usuario"
+				"Legajo", "Nombre", "Apellido", "DNI", "Cargo", "Sueldo", "Usuario"
 			}
 		));
 		scrollPane.setViewportView(table);
 		
 		nombre = new JTextField();
-		nombre.setBounds(112, 45, 86, 20);
+		nombre.setBounds(113, 106, 86, 20);
 		frmMostrarEmpleados.getContentPane().add(nombre);
 		nombre.setColumns(10);
 		
 		apellido = new JTextField();
-		apellido.setBounds(112, 105, 86, 20);
+		apellido.setBounds(113, 134, 86, 20);
 		frmMostrarEmpleados.getContentPane().add(apellido);
 		apellido.setColumns(10);
 		
 		sueldo = new JTextField();
-		sueldo.setBounds(112, 158, 86, 20);
+		sueldo.setBounds(113, 185, 86, 20);
 		frmMostrarEmpleados.getContentPane().add(sueldo);
 		sueldo.setColumns(10);
 		
 		cargo = new JTextField();
-		cargo.setBounds(112, 208, 86, 20);
+		cargo.setBounds(113, 216, 86, 20);
 		frmMostrarEmpleados.getContentPane().add(cargo);
 		cargo.setColumns(10);
 		
 		usuario = new JTextField();
-		usuario.setBounds(112, 259, 86, 20);
+		usuario.setBounds(113, 247, 86, 20);
 		frmMostrarEmpleados.getContentPane().add(usuario);
 		usuario.setColumns(10);
 		
 		JButton btnNewButton = new JButton("Volver");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Inicio.main(null);
+				frmMostrarEmpleados.dispose();
+			}
+		});
 		btnNewButton.setBounds(701, 322, 89, 23);
 		frmMostrarEmpleados.getContentPane().add(btnNewButton);
 		
@@ -134,7 +143,7 @@ public class ListarEmpleados {
 					buscarEmpleado();
 			}
 		});
-		btnNewButton_1.setBounds(78, 322, 132, 23);
+		btnNewButton_1.setBounds(78, 322, 158, 23);
 		frmMostrarEmpleados.getContentPane().add(btnNewButton_1);
 		
 		JButton btnNewButton_2 = new JButton("Mostrar todos los empleados");
@@ -147,6 +156,24 @@ public class ListarEmpleados {
 		});
 		btnNewButton_2.setBounds(335, 322, 220, 23);
 		frmMostrarEmpleados.getContentPane().add(btnNewButton_2);
+		
+		JLabel lblNewLabel_5 = new JLabel("Legajo");
+		lblNewLabel_5.setBounds(33, 81, 70, 14);
+		frmMostrarEmpleados.getContentPane().add(lblNewLabel_5);
+		
+		legajo = new JTextField();
+		legajo.setBounds(113, 78, 86, 20);
+		frmMostrarEmpleados.getContentPane().add(legajo);
+		legajo.setColumns(10);
+		
+		JLabel lblNewLabel_6 = new JLabel("Dni");
+		lblNewLabel_6.setBounds(33, 162, 46, 14);
+		frmMostrarEmpleados.getContentPane().add(lblNewLabel_6);
+		
+		dni = new JTextField();
+		dni.setBounds(113, 159, 86, 20);
+		frmMostrarEmpleados.getContentPane().add(dni);
+		dni.setColumns(10);
 	}
 	
 	public void mostrarTodosEmpleados() {
@@ -161,6 +188,7 @@ public class ListarEmpleados {
 
 /*
 agrega agrega cada dato rescatado de la bbdd y luego lo agrega a la tabla de la interfaz con la ultima linea
+Cada vez que se agrege una nueva columna a la bbdd -> agregar una nueva linea:		columna[(sigiente num)] = empleados.get(cont++).toString();
 * */					
 		while( cont < empleados.size()) {
 
@@ -170,6 +198,8 @@ agrega agrega cada dato rescatado de la bbdd y luego lo agrega a la tabla de la 
 			columna[3] = empleados.get(cont++).toString();
 			columna[4] = empleados.get(cont++).toString();
 			columna[5] = empleados.get(cont++).toString();
+			columna[6] = empleados.get(cont++).toString();
+			
 			((DefaultTableModel) table.getModel()).addRow(columna);
 			
 
@@ -187,12 +217,12 @@ agrega agrega cada dato rescatado de la bbdd y luego lo agrega a la tabla de la 
 		
 		
 		
-		empleado = conectar.buscarEmpleado(nombre.getText(), apellido.getText(), sueldo.getText(),cargo.getText(),usuario.getText());
+		empleado = conectar.mostrarEmpleado(legajo.getText(),nombre.getText(), apellido.getText(), dni.getText(), sueldo.getText(),cargo.getText(),usuario.getText());
 		
-
 
 /*
 agrega agrega cada dato rescatado de la bbdd y luego lo agrega a la tabla de la interfaz con la ultima linea
+Cada vez que se agrege una nueva columna a la bbdd -> agregar una nueva linea:		columna[(sigiente num)] = empleados.get(cont++).toString();
 * */					
 		while( cont < empleado.size()) {
 
@@ -202,10 +232,12 @@ agrega agrega cada dato rescatado de la bbdd y luego lo agrega a la tabla de la 
 			columna[3] = empleado.get(cont++).toString();
 			columna[4] = empleado.get(cont++).toString();
 			columna[5] = empleado.get(cont++).toString();
+			columna[6] = empleado.get(cont++).toString();
 			((DefaultTableModel) table.getModel()).addRow(columna);
 			
 
 		}
+
 	}
 	
 }
