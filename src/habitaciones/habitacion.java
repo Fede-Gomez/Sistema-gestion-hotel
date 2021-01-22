@@ -4,8 +4,8 @@ public class habitacion {
 
     private int capacidad, piso, numero;
     private double precio;
-    private String tipoDeHabitacion;
-    
+    private String tipoDeHabitacion,disponible;
+
     public habitacion(){
         
     } 
@@ -46,13 +46,20 @@ public class habitacion {
         this.tipoDeHabitacion = tipoDeHabitacion;
     }
 
-    @Override
+    public String getDisponible() {
+		return disponible;
+	}
+	public void setDisponible(String disponible) {
+		this.disponible = disponible;
+	}
+	@Override
     public String toString(){
         String cadena = "";
         cadena += "\nNumero: " + this.numero;
         cadena += "\npiso: " + this.piso;
         cadena += "\nCapacidad: " + this.capacidad;
         cadena += "\nPrecio: " + this.precio;
+        cadena += "\nDisponible: " + this.disponible;
         return cadena;
     } 
     

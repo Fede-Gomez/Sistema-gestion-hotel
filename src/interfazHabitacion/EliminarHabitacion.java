@@ -11,7 +11,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import conectarBBDD.ConectarHabitacion;
-import interfaz.Inicio;
+import interfazMenu.InicioDirector;
 
 import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
@@ -106,7 +106,7 @@ public class EliminarHabitacion {
 		volver.setBounds(347, 487, 121, 23);
 		volver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Inicio.main(null);
+				InicioDirector.main(null);
 				frmEliminarHabitacion.dispose();
 			}
 		});
@@ -249,26 +249,19 @@ public class EliminarHabitacion {
 		ArrayList<String> habitaciones = new ArrayList<String>();
 		int numCols = table.getModel().getColumnCount();
 		Object [] columna = new Object[numCols]; 
-		int cont = 0;
 		
-		habitaciones = conectar.buscarHabitacion(numero.getText(),precio.getText(), capacidad.getText(), piso.getText(), tipoHabitacion, disponible);
+		habitaciones = conectar.buscarHabitaciones(numero.getText(),precio.getText(), capacidad.getText(), piso.getText(), tipoHabitacion, disponible);
 //String numero, String precio, String capacidad, String piso, String tipo, String disponible
 		
 /*
 agrega agrega cada dato rescatado de la bbdd y luego lo agrega a la tabla de la interfaz con la ultima linea
-* */					
-		while( cont < habitaciones.size()) {
-
-			columna[0] = habitaciones.get(cont++).toString();
-			columna[1] = habitaciones.get(cont++).toString();
-			columna[2] = habitaciones.get(cont++).toString();
-			columna[3] = habitaciones.get(cont++).toString();
-			columna[4] = habitaciones.get(cont++).toString();
-			columna[5] = habitaciones.get(cont++).toString();
-			((DefaultTableModel) table.getModel()).addRow(columna);
-
-
+* */
+		
+		
+		for(int cont = 0; cont < habitaciones.size(); cont++) {
+			columna[cont] = habitaciones.get(cont).toString();
 		}
+		((DefaultTableModel) table.getModel()).addRow(columna);	
 	}
 	
 	public void eliminarHabitacion() {

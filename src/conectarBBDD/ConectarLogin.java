@@ -13,7 +13,7 @@ public class ConectarLogin {
 	private ResultSet resultset;
 	
 	
-	public boolean usuarioContraseñaDelLogin(String usuario, String pass) {
+	public String usuarioContraseñaDelLogin(String usuario, String pass) {
 	
 		try {
 			
@@ -25,13 +25,13 @@ public class ConectarLogin {
 			
 			while(resultset.next()) {
 				if(resultset.getString("usuario").equals(usuario) && resultset.getString("contraseña").equals(pass)) {
-					return true;
+					return resultset.getString("cargo");
 				}
 			}			
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-		return false;
+		return "";
 	}
 	
 

@@ -9,7 +9,7 @@ import javax.swing.JTextField;
 
 import clientes.Cliente;
 import conectarBBDD.ConectarCliente;
-import interfaz.Inicio;
+import interfazMenu.InicioDirector;
 import validaciones.Validaciones;
 
 import javax.swing.JButton;
@@ -158,7 +158,7 @@ public class AgregarCliente {
 		JButton volver = new JButton("Volver");
 		volver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Inicio.main(null);
+				InicioDirector.main(null);
 				frmAgregarCliente.dispose();
 			}
 		});

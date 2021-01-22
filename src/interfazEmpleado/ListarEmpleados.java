@@ -11,7 +11,7 @@ import javax.swing.JButton;
 import javax.swing.table.DefaultTableModel;
 
 import conectarBBDD.ConectarEmpleado;
-import interfaz.Inicio;
+import interfazMenu.InicioDirector;
 
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -125,7 +125,7 @@ public class ListarEmpleados {
 		JButton btnNewButton = new JButton("Volver");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Inicio.main(null);
+				InicioDirector.main(null);
 				frmMostrarEmpleados.dispose();
 			}
 		});
@@ -213,7 +213,6 @@ Cada vez que se agrege una nueva columna a la bbdd -> agregar una nueva linea:		
 		ArrayList<String> empleado = new ArrayList<String>();
 		int numCols = table.getModel().getColumnCount();
 		Object [] columna = new Object[numCols]; 
-		int cont = 0;
 		
 		
 		
@@ -224,19 +223,12 @@ Cada vez que se agrege una nueva columna a la bbdd -> agregar una nueva linea:		
 agrega agrega cada dato rescatado de la bbdd y luego lo agrega a la tabla de la interfaz con la ultima linea
 Cada vez que se agrege una nueva columna a la bbdd -> agregar una nueva linea:		columna[(sigiente num)] = empleados.get(cont++).toString();
 * */					
-		while( cont < empleado.size()) {
-
-			columna[0] = empleado.get(cont++).toString();
-			columna[1] = empleado.get(cont++).toString();
-			columna[2] = empleado.get(cont++).toString();
-			columna[3] = empleado.get(cont++).toString();
-			columna[4] = empleado.get(cont++).toString();
-			columna[5] = empleado.get(cont++).toString();
-			columna[6] = empleado.get(cont++).toString();
-			((DefaultTableModel) table.getModel()).addRow(columna);
-			
-
+		
+		
+		for(int cont = 0; cont < empleado.size(); cont++) {
+			columna[cont] = empleado.get(cont).toString();
 		}
+		((DefaultTableModel) table.getModel()).addRow(columna);	
 
 	}
 	

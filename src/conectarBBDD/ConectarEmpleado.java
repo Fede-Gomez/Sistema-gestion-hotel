@@ -23,7 +23,7 @@ try {
 			
 			statement = conectar.createStatement();
 			
-			String instruccionSQL = "INSERT INTO sistemahotel.empleado (legajo, nombre, apellido, dni, cargo, sueldo, usuario, contraseña) VALUES ('" +empleadoNuevo.getLegajo() + "','" + empleadoNuevo.getNombre() + "','" + empleadoNuevo.getApellido() + "','" + empleadoNuevo.getDNI() + "','" + empleadoNuevo.getCargo() + "','" + empleadoNuevo.getSueldo() + "','" + empleadoNuevo.getUsuario() + "','" + empleadoNuevo.getContraseña()+ "')";
+			String instruccionSQL = "INSERT INTO sistemahotel.empleado (nombre, apellido, dni, cargo, sueldo, usuario, contraseña) VALUES ('" + empleadoNuevo.getNombre() + "','" + empleadoNuevo.getApellido() + "','" + empleadoNuevo.getDNI() + "','" + empleadoNuevo.getCargo() + "','" + empleadoNuevo.getSueldo() + "','" + empleadoNuevo.getUsuario() + "','" + empleadoNuevo.getContraseña()+ "')";
 			
 			statement.executeUpdate(instruccionSQL);
 				

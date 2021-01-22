@@ -290,7 +290,6 @@ public class ModificarHabitacion {
 		ArrayList<String> habitaciones = new ArrayList<String>();
 		int numCols = table.getModel().getColumnCount();
 		Object [] columna = new Object[numCols]; 
-		int cont = 0;
 		
 		if(criterioNormal.isSelected()) {
 			tipoHabitacionCriterio = criterioNormal.getText();		
@@ -318,24 +317,16 @@ public class ModificarHabitacion {
 			}
 		}
 		
-		habitaciones = conectar.buscarHabitacion(criterioNumero.getText(),criterioPiso.getText(),criterioCapacidad.getText(),criterioPrecio.getText(), tipoHabitacionCriterio, disponibleCriterio);
+		habitaciones = conectar.buscarHabitaciones(criterioNumero.getText(),criterioPiso.getText(),criterioCapacidad.getText(),criterioPrecio.getText(), tipoHabitacionCriterio, disponibleCriterio);
 
 		
 /*
 agrega agrega cada dato rescatado de la bbdd y luego lo agrega a la tabla de la interfaz con la ultima linea
 * */					
-		while( cont < habitaciones.size()) {
-
-			columna[0] = habitaciones.get(cont++).toString();
-			columna[1] = habitaciones.get(cont++).toString();
-			columna[2] = habitaciones.get(cont++).toString();
-			columna[3] = habitaciones.get(cont++).toString();
-			columna[4] = habitaciones.get(cont++).toString();
-			columna[5] = habitaciones.get(cont++).toString();
-			((DefaultTableModel) table.getModel()).addRow(columna);
-
-
+		for(int cont = 0; cont < habitaciones.size(); cont++) {
+			columna[cont] = habitaciones.get(cont).toString();
 		}
+		((DefaultTableModel) table.getModel()).addRow(columna);	
 	}
 	
 	public void modificarHabitacion() {

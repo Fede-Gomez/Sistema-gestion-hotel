@@ -13,7 +13,7 @@ import javax.swing.table.DefaultTableModel;
 
 import clientes.Cliente;
 import conectarBBDD.ConectarCliente;
-import interfaz.Inicio;
+import interfazMenu.InicioDirector;
 
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -262,7 +262,7 @@ public class ModificarCliente {
 		JButton volver = new JButton("Volver");
 		volver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Inicio.main(null);
+				InicioDirector.main(null);
 				frmModificarCliente.dispose();
 			}
 		});
@@ -298,7 +298,6 @@ public class ModificarCliente {
 		ArrayList<String> cliente = new ArrayList<String>();
 		int numCols = table.getModel().getColumnCount();
 		Object [] columna = new Object[numCols]; 
-		int cont = 0;				
 		
 		
 		
@@ -309,19 +308,12 @@ public class ModificarCliente {
 agrega agrega cada dato rescatado de la bbdd y luego lo agrega a la tabla de la interfaz con la ultima linea
 Cada vez que se agrege una nueva columna a la bbdd -> agregar una nueva linea:		columna[(sigiente num)] = empleados.get(cont++).toString();
 * */					
-		while( cont < cliente.size()) {
-
-			columna[0] = cliente.get(cont++).toString();
-			columna[1] = cliente.get(cont++).toString();
-			columna[2] = cliente.get(cont++).toString();
-			columna[3] = cliente.get(cont++).toString();
-			columna[4] = cliente.get(cont++).toString();
-			columna[5] = cliente.get(cont++).toString();
-			columna[6] = cliente.get(cont++).toString();
-			((DefaultTableModel) table.getModel()).addRow(columna);
-			
-
+	
+		
+		for(int cont = 0; cont < cliente.size(); cont++) {
+			columna[cont] = cliente.get(cont).toString();
 		}
+		((DefaultTableModel) table.getModel()).addRow(columna);	
 	}
 	
 	public void modificarCliente() {

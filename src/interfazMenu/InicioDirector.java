@@ -1,4 +1,4 @@
-package interfaz;
+package interfazMenu;
 
 import java.awt.EventQueue;
 
@@ -20,8 +20,9 @@ import interfazHabitacion.AgregarHabitacion;
 import interfazHabitacion.EliminarHabitacion;
 import interfazHabitacion.ListarHabitaciones;
 import interfazHabitacion.ModificarHabitacion;
+import interfazLogin.Login;
 
-public class Inicio {
+public class InicioDirector {
 
 	private JFrame frmInicio;
 
@@ -32,7 +33,7 @@ public class Inicio {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Inicio window = new Inicio();
+					InicioDirector window = new InicioDirector();
 					window.frmInicio.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -44,7 +45,7 @@ public class Inicio {
 	/**
 	 * Create the application.
 	 */
-	public Inicio() {
+	public InicioDirector() {
 		initialize();
 	}
 
@@ -74,10 +75,6 @@ public class Inicio {
 		cliente.setBounds(10, 211, 103, 23);
 		panelBotones.add(cliente);
 		
-		JButton productos = new JButton("Productos");
-		productos.setBounds(10, 313, 103, 23);
-		panelBotones.add(productos);
-		
 		JButton cerrarSession = new JButton("Cerrar Session");
 		cerrarSession.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -86,29 +83,7 @@ public class Inicio {
 			}
 		});
 		cerrarSession.setBounds(10, 415, 103, 23);
-		panelBotones.add(cerrarSession);		
-		
-		JPanel panelProducto = new JPanel();
-		panelProducto.setBounds(132, 311, 756, 46);
-		panelProducto.setBackground(Color.LIGHT_GRAY);
-		panelProducto.setLayout(null);
-		panelProducto.setVisible(false);
-		
-		JButton agregarProducto = new JButton("Agregar producto");
-		agregarProducto.setBounds(23, 11, 155, 23);
-		panelProducto.add(agregarProducto);
-		
-		JButton mostrarProducto = new JButton("Mostrar productos");
-		mostrarProducto.setBounds(207, 11, 163, 23);
-		panelProducto.add(mostrarProducto);
-		
-		JButton eliminarProducto = new JButton("Eliminar producto");
-		eliminarProducto.setBounds(591, 11, 155, 23);
-		panelProducto.add(eliminarProducto);
-		
-		JButton modificarProducto = new JButton("Modificar producto");
-		modificarProducto.setBounds(401, 11, 163, 23);
-		panelProducto.add(modificarProducto);
+		panelBotones.add(cerrarSession);
 		
 		JPanel panelEmpleados = new JPanel();
 		panelEmpleados.setBounds(130, 113, 758, 46);
@@ -243,7 +218,6 @@ public class Inicio {
 		frmInicio.getContentPane().add(panelHabitaciones);
 		frmInicio.getContentPane().add(panelEmpleados);
 		frmInicio.getContentPane().add(panelCliente);
-		frmInicio.getContentPane().add(panelProducto);
 		frmInicio.getContentPane().add(panelBotones);
 		
 		empleados.addActionListener(new ActionListener() {
@@ -251,7 +225,7 @@ public class Inicio {
 				panelEmpleados.setVisible(true);	
 				panelHabitaciones.setVisible(false);	
 				panelCliente.setVisible(false);
-				panelProducto.setVisible(false);
+				
 			}
 		});
 		
@@ -260,7 +234,6 @@ public class Inicio {
 				panelHabitaciones.setVisible(true);	
 				panelEmpleados.setVisible(false);	
 				panelCliente.setVisible(false);
-				panelProducto.setVisible(false);
 			}
 		});
 		
@@ -269,15 +242,6 @@ public class Inicio {
 				panelEmpleados.setVisible(false);	
 				panelHabitaciones.setVisible(false);	
 				panelCliente.setVisible(true);
-				panelProducto.setVisible(false);
-			}
-		});
-		productos.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				panelEmpleados.setVisible(false);	
-				panelHabitaciones.setVisible(false);	
-				panelCliente.setVisible(false);
-				panelProducto.setVisible(true);
 			}
 		});
 	}

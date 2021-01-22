@@ -1,7 +1,8 @@
-/interfazCliente/
-/conectarBBDD/
-/interfaz/
-/interfazEmpleado/
+/interfazMenu/
+/interfazRecepcionista/
 /personal/
 /validaciones/
+/conectarBBDD/
+/interfazCliente/
+/interfazEmpleado/
 /interfazHabitacion/

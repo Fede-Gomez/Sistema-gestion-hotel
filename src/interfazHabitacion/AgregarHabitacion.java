@@ -15,7 +15,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 
 import conectarBBDD.ConectarHabitacion;
 import habitaciones.*;
-import interfaz.Inicio;
+import interfazMenu.InicioDirector;
 import validaciones.Validaciones;
 
 import javax.swing.JButton;
@@ -146,7 +146,7 @@ public class AgregarHabitacion {
 		volver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			
-				Inicio.main(null);
+				InicioDirector.main(null);
 				frmAgregarHabitacio.dispose();
 			}
 		});

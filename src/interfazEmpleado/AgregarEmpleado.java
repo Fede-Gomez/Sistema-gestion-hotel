@@ -19,7 +19,7 @@ import javax.swing.AbstractListModel;
 import javax.swing.ListSelectionModel;
 
 import conectarBBDD.ConectarEmpleado;
-import interfaz.Inicio;
+import interfazMenu.InicioDirector;
 
 public class AgregarEmpleado {
 
@@ -120,7 +120,7 @@ public class AgregarEmpleado {
 		btnNewButton_2.setBounds(356, 290, 113, 23);
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Inicio.main(null);
+				InicioDirector.main(null);
 				frmAgregarEmpleado.dispose();
 			}
 		});

@@ -142,6 +142,41 @@ public class ConectarCliente {
 		return null;
 	}
 	
+public Cliente buscarClienteDoc(String doc) {
+		
+		try {
+			
+			Cliente clienteBuscado = new Cliente();
+			
+			conectar = DriverManager.getConnection("jdbc:mysql://localhost:3306?serverTimezone=UTC","admin","1234");
+			
+			statement = conectar.createStatement();
+
+			String instruccionSQL = "select * from sistemahotel.cliente where dni = '" + doc + "'";
+			
+			resultset = statement.executeQuery(instruccionSQL);
+			
+			while(resultset.next()) {
+				clienteBuscado.setId(Integer.parseInt(resultset.getString("id")));
+				clienteBuscado.setNombre(resultset.getString("nombre"));
+				clienteBuscado.setApellido(resultset.getString("apellido"));
+				clienteBuscado.setDni(Integer.parseInt(resultset.getString("dni")));
+				clienteBuscado.setCelular(Integer.parseInt(resultset.getString("celular")));
+				clienteBuscado.setEmail(resultset.getString("email"));
+				clienteBuscado.setDireccion(resultset.getString("direccion"));
+			}
+				
+				
+				
+				return clienteBuscado;
+			
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
 	
 	public void modificarCliente(int idCliente, String nombreModificado, String apellidoModificado, String dniModificado, String celularModificado, String emailModificado, String direccionModificado) {
 		try {

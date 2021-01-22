@@ -1,4 +1,4 @@
-package interfaz;
+package interfazLogin;
 
 import java.awt.EventQueue;
 
@@ -10,6 +10,8 @@ import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 
 import conectarBBDD.ConectarLogin;
+import interfazMenu.InicioDirector;
+import interfazMenu.InicioRecepcionista;
 
 import javax.swing.JPasswordField;
 import javax.swing.GroupLayout;
@@ -20,7 +22,7 @@ import javax.swing.JOptionPane;
 
 public class Login {
 
-	private JFrame frame;
+	private JFrame frmLogin;
 	private JTextField usuario;
 	private JPasswordField contraseña;
 	//private JLabel mensajeError;
@@ -32,7 +34,7 @@ public class Login {
 			public void run() {
 				try {
 					Login window = new Login();
-					window.frame.setVisible(true);
+					window.frmLogin.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -51,9 +53,10 @@ public class Login {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame();
-		frame.setBounds(100, 100, 525, 286);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmLogin = new JFrame();
+		frmLogin.setTitle("Login");
+		frmLogin.setBounds(100, 100, 525, 286);
+		frmLogin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JPanel panel = new JPanel();
 		panel.setLayout(null);
@@ -62,14 +65,20 @@ public class Login {
 		ingresar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ConectarLogin con = new ConectarLogin();
-				if(con.usuarioContraseñaDelLogin(usuario.getText(), contraseña.getText())){
-					Inicio.main(null);
-					frame.dispose();
+				String cargo = con.usuarioContraseñaDelLogin(usuario.getText(), contraseña.getText());
+				if(cargo.equals("director general")){
+					InicioDirector.main(null);
+					frmLogin.dispose();
 				}
 				else {
-					JOptionPane.showMessageDialog(ingresar, "Credenciales invalidas");
-					usuario.setText("");
-					contraseña.setText("");
+					if(cargo.equals("recepcionista")) {
+						InicioRecepcionista.main(null);
+						frmLogin.dispose();
+					}else {
+						JOptionPane.showMessageDialog(ingresar, "Credenciales invalidas");
+						usuario.setText("");
+						contraseña.setText("");						
+					}
 				}
 			}
 		});
@@ -84,7 +93,7 @@ public class Login {
 		contraseña = new JPasswordField();
 		contraseña.setBounds(177, 149, 128, 20);
 		panel.add(contraseña);
-		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
+		GroupLayout groupLayout = new GroupLayout(frmLogin.getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addComponent(panel, GroupLayout.DEFAULT_SIZE, 806, Short.MAX_VALUE)
@@ -101,6 +110,6 @@ public class Login {
 		JLabel lblNewLabel_1 = new JLabel("Contrase\u00F1a");
 		lblNewLabel_1.setBounds(56, 152, 76, 14);
 		panel.add(lblNewLabel_1);
-		frame.getContentPane().setLayout(groupLayout);
+		frmLogin.getContentPane().setLayout(groupLayout);
 	}
 }

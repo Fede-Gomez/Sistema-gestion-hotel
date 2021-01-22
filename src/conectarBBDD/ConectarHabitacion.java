@@ -3,6 +3,7 @@ package conectarBBDD;
 import java.sql.*;
 import java.util.*;
 
+import clientes.Cliente;
 import habitaciones.*;
 import personal.Empleado;
 
@@ -69,7 +70,7 @@ public class ConectarHabitacion {
 	}
 	
 	
-	public ArrayList<String> buscarHabitacion(String numero, String precio, String capacidad, String piso, String tipo, String disponible) {
+	public ArrayList<String> buscarHabitaciones(String numero, String precio, String capacidad, String piso, String tipo, String disponible) {
 		try {
 
 			ArrayList<String> habitaciones = new ArrayList<String>();
@@ -165,7 +166,41 @@ public class ConectarHabitacion {
 			}
 		}
 	
+	public habitacion buscarHabitacionNumero(String num) {
+		
+		try {
 
+			habitacion habitacion = new habitacion();
+			
+			conectar = DriverManager.getConnection("jdbc:mysql://localhost:3306?serverTimezone=UTC","admin","1234");
+			
+			statement = conectar.createStatement();
+			
+			String instruccionSQL = "select * from sistemahotel.habitacion where numero = '" + num.trim().toLowerCase() + "'";
+			
+			resultset = statement.executeQuery(instruccionSQL);
+			
+				
+				while(resultset.next()) {
+					habitacion.setNumero(Short.parseShort(resultset.getString("numero")));
+					habitacion.setCapacidad(Short.parseShort(resultset.getString("capacidad")));
+					habitacion.setPiso(Short.parseShort(resultset.getString("piso")));
+					habitacion.setPrecio(Double.parseDouble(resultset.getString("precio")));
+					habitacion.setTipoDeHabitacion(resultset.getString("tipo"));
+					habitacion.setDisponible(resultset.getString("disponible"));
+			}
+				
+				return habitacion;
+			
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+
+	
 	
 }
 

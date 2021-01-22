@@ -14,7 +14,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import conectarBBDD.ConectarEmpleado;
-import interfaz.Inicio;
+import interfazMenu.InicioDirector;
 import personal.Empleado;
 
 import javax.swing.JButton;
@@ -172,7 +172,7 @@ public class EliminarEmpleado {
 		volver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			
-				Inicio.main(null);
+				InicioDirector.main(null);
 				frmEliminarEmpleado.dispose();
 			}
 		});
@@ -223,7 +223,6 @@ public class EliminarEmpleado {
 		ArrayList<String> empleado = new ArrayList<String>();
 		int numCols = table.getModel().getColumnCount();
 		Object [] columna = new Object[numCols]; 
-		int cont = 0;
 		
 		
 		String cargo;
@@ -247,19 +246,12 @@ public class EliminarEmpleado {
 agrega agrega cada dato rescatado de la bbdd y luego lo agrega a la tabla de la interfaz con la ultima linea
 Cada vez que se agrege una nueva columna a la bbdd -> agregar una nueva linea:		columna[(sigiente num)] = empleados.get(cont++).toString();
 * */					
-		while( cont < empleado.size()) {
-
-			columna[0] = empleado.get(cont++).toString();
-			columna[1] = empleado.get(cont++).toString();
-			columna[2] = empleado.get(cont++).toString();
-			columna[3] = empleado.get(cont++).toString();
-			columna[4] = empleado.get(cont++).toString();
-			columna[5] = empleado.get(cont++).toString();
-			columna[6] = empleado.get(cont++).toString();
-			((DefaultTableModel) table.getModel()).addRow(columna);
-			
-
+		
+		
+		for(int cont = 0; cont < empleado.size(); cont++) {
+			columna[cont] = empleado.get(cont).toString();
 		}
+		((DefaultTableModel) table.getModel()).addRow(columna);	
 	}
 	
 	public void eliminarEmpleado() {
