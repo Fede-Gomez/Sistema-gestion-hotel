@@ -34,10 +34,11 @@ public class ListarHabitaciones {
 	private JTextField capacidad;
 	private JTextField precio;
 	private ConectarHabitacion conectar = new ConectarHabitacion();
-	private final ButtonGroup tipoHabiacion = new ButtonGroup();
+	private final ButtonGroup tipoHabi = new ButtonGroup();
 	private String disponible;
 	private JRadioButton disponibleSi = new JRadioButton("Si");
 	private JRadioButton disponibleNo = new JRadioButton("No");
+	private final ButtonGroup dispo = new ButtonGroup();
 
 	/**
 	 * Launch the application.
@@ -122,17 +123,17 @@ public class ListarHabitaciones {
 		precio.setColumns(10);
 
 		JRadioButton normal = new JRadioButton("Normal");
-		tipoHabiacion.add(normal);
+		tipoHabi.add(normal);
 		normal.setBounds(430, 28, 76, 23);
 		panel.add(normal);
 
 		JRadioButton Super = new JRadioButton("Super");
-		tipoHabiacion.add(Super);
+		tipoHabi.add(Super);
 		Super.setBounds(430, 61, 76, 23);
 		panel.add(Super);
 
 		JRadioButton deluxe = new JRadioButton("Deluxe");
-		tipoHabiacion.add(deluxe);
+		tipoHabi.add(deluxe);
 		deluxe.setBounds(430, 94, 76, 23);
 		panel.add(deluxe);
 
@@ -143,7 +144,7 @@ public class ListarHabitaciones {
 				frmMostrarHabitaciones.dispose();
 			}
 		});
-		volver.setBounds(650, 141, 117, 23);
+		volver.setBounds(608, 141, 159, 23);
 		panel.add(volver);
 		frmMostrarHabitaciones.getContentPane().setLayout(groupLayout);
 
@@ -154,7 +155,7 @@ public class ListarHabitaciones {
 			}
 		});
 
-		listarTodas.setBounds(650, 107, 117, 23);
+		listarTodas.setBounds(608, 107, 159, 23);
 
 		JButton buscar = new JButton("Buscar habitacion");
 		buscar.addActionListener(new ActionListener() {
@@ -188,7 +189,7 @@ public class ListarHabitaciones {
 
 			}
 		});
-		buscar.setBounds(650, 28, 117, 23);
+		buscar.setBounds(608, 28, 159, 23);
 
 		panel.add(scrollPane);
 		panel.add(listarTodas);
@@ -202,27 +203,29 @@ public class ListarHabitaciones {
 		JButton limpiar = new JButton("Limpiar");
 		limpiar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// numero.getText(), piso.getText(), capacidad.getText(), precio.getText(),
-				// tipoHabitacion
-
+				
 				numero.setText("");
 				piso.setText("");
 				capacidad.setText("");
 				precio.setText("");
 				tipoHabitacion = null;
+				dispo.clearSelection();
+				tipoHabi.clearSelection();
 			}
 		});
-		limpiar.setBounds(650, 67, 117, 23);
+		limpiar.setBounds(608, 67, 159, 23);
 		panel.add(limpiar);
 
 		JLabel lblNewLabel_5 = new JLabel("Disponible");
 		lblNewLabel_5.setBounds(512, 32, 86, 14);
 		panel.add(lblNewLabel_5);
+		dispo.add(disponibleSi);
 
-		disponibleSi.setBounds(522, 61, 109, 23);
+		disponibleSi.setBounds(522, 61, 46, 23);
 		panel.add(disponibleSi);
+		dispo.add(disponibleNo);
 
-		disponibleNo.setBounds(522, 94, 109, 23);
+		disponibleNo.setBounds(522, 94, 46, 23);
 		panel.add(disponibleNo);
 
 	}
@@ -238,15 +241,23 @@ public class ListarHabitaciones {
 		Object[] columna = new Object[numCols];
 
 		habitaciones = conectar.listarHabitaciones();
-
 		/*
 		 * agrega agrega cada dato rescatado de la bbdd y luego lo agrega a la tabla de
 		 * la interfaz con la ultima linea
-		 */ for (int cont = 0; cont < habitaciones.size(); cont++) {
-			columna[cont] = habitaciones.get(cont).toString();
+		 * 
+		 */
+		
+		for(int cont = 0, a = 0; cont < habitaciones.size(); cont++ , a++) {
+			if(a == numCols) {
+				((DefaultTableModel) table.getModel()).addRow(columna);
+				a = 0;
+			}
+			columna[a] = habitaciones.get(cont).toString();
 		}
-		((DefaultTableModel) table.getModel()).addRow(columna);
 
+//		esta linea es para mostrar el ultimo item que faltaba mostrar en la tabla		
+		((DefaultTableModel) table.getModel()).addRow(columna);
+		
 	}
 
 	public void buscarHabitacionEspecificada() {
@@ -263,9 +274,15 @@ public class ListarHabitaciones {
 		habitacion = conectar.buscarHabitaciones(numero.getText(), precio.getText(), capacidad.getText(),
 				piso.getText(), tipoHabitacion, disponible);
 
-		for (int cont = 0; cont < habitacion.size(); cont++) {
-			columna[cont] = habitacion.get(cont).toString();
+		
+		for(int cont = 0, a = 0; cont < habitacion.size(); cont++ , a++) {
+			if(a == numCols) {
+				a = 0;
+			}
+			columna[a] = habitacion.get(cont).toString();
 		}
 		((DefaultTableModel) table.getModel()).addRow(columna);
+		
+		
 	}
 }

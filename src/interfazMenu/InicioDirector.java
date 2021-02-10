@@ -56,23 +56,23 @@ public class InicioDirector {
 		frmInicio = new JFrame();
 		frmInicio.setTitle("Inicio");
 		frmInicio.setResizable(false);
-		frmInicio.setBounds(100, 100, 914, 526);
+		frmInicio.setBounds(100, 100, 964, 526);
 		frmInicio.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JPanel panelBotones = new JPanel();
-		panelBotones.setBounds(10, 11, 122, 465);
+		panelBotones.setBounds(10, 11, 146, 465);
 		panelBotones.setLayout(null);
 		
 		JButton habitacion = new JButton("Habitacion");
-		habitacion.setBounds(10, 11, 103, 23);
+		habitacion.setBounds(10, 11, 125, 23);
 		panelBotones.add(habitacion);
 		
 		JButton empleados = new JButton("Empleados");
-		empleados.setBounds(10, 110, 103, 23);
+		empleados.setBounds(10, 110, 125, 23);
 		panelBotones.add(empleados);
 		
 		JButton cliente = new JButton("Cliente");
-		cliente.setBounds(10, 211, 103, 23);
+		cliente.setBounds(10, 211, 125, 23);
 		panelBotones.add(cliente);
 		
 		JButton cerrarSession = new JButton("Cerrar Session");
@@ -82,11 +82,11 @@ public class InicioDirector {
 				frmInicio.dispose();
 			}
 		});
-		cerrarSession.setBounds(10, 415, 103, 23);
+		cerrarSession.setBounds(10, 415, 125, 23);
 		panelBotones.add(cerrarSession);
 		
 		JPanel panelEmpleados = new JPanel();
-		panelEmpleados.setBounds(130, 113, 758, 46);
+		panelEmpleados.setBounds(155, 113, 777, 46);
 		panelEmpleados.setBackground(new Color(0, 204, 153));
 		panelEmpleados.setLayout(null);
 		panelEmpleados.setVisible(false);
@@ -133,7 +133,7 @@ public class InicioDirector {
 		panelEmpleados.add(modificarEmpleado);
 		
 		JPanel panelHabitaciones = new JPanel();
-		panelHabitaciones.setBounds(130, 11, 758, 46);
+		panelHabitaciones.setBounds(155, 11, 777, 46);
 		panelHabitaciones.setBackground(new Color(153, 0, 102));
 		panelHabitaciones.setVisible(false);
 		
@@ -181,7 +181,7 @@ public class InicioDirector {
 		panelHabitaciones.add(modificarHabitacion);
 		
 		JPanel panelCliente = new JPanel();
-		panelCliente.setBounds(130, 207, 758, 46);
+		panelCliente.setBounds(155, 207, 777, 46);
 		panelCliente.setBackground(Color.CYAN);
 		panelCliente.setForeground(UIManager.getColor("Button.background"));
 		panelCliente.setLayout(null);

@@ -154,14 +154,17 @@ public class mostrarReservas {
 		int numCols = table.getModel().getColumnCount();
 		Object [] columna = new Object[numCols]; 
 		reservas = conectarReservas.buscarReserva(numReserva.getText(), nombre.getText(), dni.getText());
-
+		int a = 0;
 
 /*
 agrega agrega cada dato rescatado de la bbdd y luego lo agrega a la tabla de la interfaz con la ultima linea
 Cada vez que se agrege una nueva columna a la bbdd -> agregar una nueva linea:		columna[(sigiente num)] = empleados.get(cont++).toString();
 * */					
-			for(int cont = 0; cont < reservas.size(); cont++) {
+			for(int cont = 0; cont < reservas.size(); cont++ , a++) {
 				columna[cont] = reservas.get(cont).toString();
+				if(a == numCols) {
+					a = 0;
+				}
 			}
 			((DefaultTableModel) table.getModel()).addRow(columna);				
 		

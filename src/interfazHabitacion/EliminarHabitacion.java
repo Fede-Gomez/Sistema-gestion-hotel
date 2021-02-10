@@ -151,7 +151,7 @@ public class EliminarHabitacion {
 				
 			buscarHabitacion();
 			limpiarCampos(); 
-				
+				JOptionPane.showMessageDialog(frmEliminarHabitacion, "Se elimino correctamente");
 			
 			
 		}

@@ -15,7 +15,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import conectarBBDD.ConectarHabitacion;
-
+import interfazMenu.InicioDirector;
 
 import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
@@ -80,7 +80,7 @@ public class ModificarHabitacion {
 		frmModificarHabitacion = new JFrame();
 		frmModificarHabitacion.setTitle("Modificar habitacion");
 		frmModificarHabitacion.setResizable(false);
-		frmModificarHabitacion.setBounds(100, 100, 934, 569);
+		frmModificarHabitacion.setBounds(100, 100, 952, 569);
 		frmModificarHabitacion.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JPanel panel = new JPanel();
@@ -161,6 +161,12 @@ public class ModificarHabitacion {
 		modificar.setBounds(563, 410, 145, 23);
 		
 		JButton volver = new JButton("Volver");
+		volver.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				InicioDirector.main(null);
+				frmModificarHabitacion.dispose();
+			}
+		});
 		volver.setBounds(773, 506, 145, 23);
 		
 		table = new JTable();

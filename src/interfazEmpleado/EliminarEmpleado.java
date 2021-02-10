@@ -261,6 +261,7 @@ Cada vez que se agrege una nueva columna a la bbdd -> agregar una nueva linea:		
 			conectar.eliminarEmpleado(empleadoSeleccionado);					
 			((DefaultTableModel) table.getModel()).removeRow(0);
 			limpiarCampos();
+			JOptionPane.showMessageDialog(frmEliminarEmpleado, "Se elimino empleado");
 		}
 		
 	}

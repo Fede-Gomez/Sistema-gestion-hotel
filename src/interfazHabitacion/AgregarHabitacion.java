@@ -131,6 +131,7 @@ public class AgregarHabitacion {
 				
 				limpiarCampos();
 				
+				JOptionPane.showMessageDialog(frmAgregarHabitacio, "Se agrego correctamente");
 			}
 		});
 		

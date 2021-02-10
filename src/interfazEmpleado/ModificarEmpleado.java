@@ -343,10 +343,15 @@ agrega agrega cada dato rescatado de la bbdd y luego lo agrega a la tabla de la 
 Cada vez que se agrege una nueva columna a la bbdd -> agregar una nueva linea:		columna[(sigiente num)] = empleados.get(cont++).toString();
 * */					
 		
-		for(int cont = 0; cont < empleado.size(); cont++) {
-			columna[cont] = empleado.get(cont).toString();
+		for(int cont = 0, a = 0; cont < empleado.size(); cont++ , a++) {
+			if(a == numCols) {
+				a = 0;
+			}
+			columna[a] = empleado.get(cont).toString();
 		}
-		((DefaultTableModel) table.getModel()).addRow(columna);	
+		((DefaultTableModel) table.getModel()).addRow(columna);
+		
+		
 
 	}
 	

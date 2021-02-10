@@ -53,7 +53,9 @@ public class ConectarCliente {
 					cliente.add(resultset.getString("direccion"));
 			}
 				
-				
+			resultset.close();
+			statement.close();
+			conectar.close();
 				
 				return cliente;
 		
